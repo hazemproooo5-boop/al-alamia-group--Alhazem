@@ -1,13 +1,9 @@
-import { products, prices } from '../data/seed';
+import { PriceRecord } from '../types';
+import { prices } from '../data/seed';
 
-export const verificationService = {
-  getDataQualitySummary: () => {
-    const missingImages = products.filter((product) => !product.imageUrl).length;
-    const missingSources = products.filter((product) => !product.sourceUrl).length;
-    const missingSpecs = products.filter((product) => Object.keys(product.specifications).length === 0).length;
-    const missingWarranty = products.filter((product) => !product.warranty).length;
-    const stalePrices = prices.filter((price) => new Date(price.priceDate) < new Date(Date.now() - 1000 * 60 * 60 * 24 * 30)).length;
-
-    return { missingImages, missingSources, missingSpecs, missingWarranty, stalePrices };
+export const priceService = {
+  getLatest: (productId: string): PriceRecord | undefined => {
+    const list = prices.filter((price) => price.productId === productId);
+    return list.sort((a, b) => new Date(b.priceDate).getTime() - new Date(a.priceDate).getTime())[0];
   },
 };

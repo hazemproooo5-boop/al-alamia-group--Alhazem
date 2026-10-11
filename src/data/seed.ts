@@ -1,284 +1,417 @@
-import { Brand, NewsItem, PriceRecord, Product, SiteSettings, Supplier, Tip } from '../types';
+:root {
+  --navy: #091329;
+  --gold: #c79529;
+  --warm: #f5f4f0;
+  --text: #1d2433;
+  --muted: #58657d;
+  --card: #ffffff;
+  --border: #e7e3dc;
+  --shadow: rgba(9, 19, 41, 0.08);
+}
 
-export const siteSettings: SiteSettings = {
-  brandName: 'AL HAZEM SMART',
-  slogan: 'قبل ما تشتري… اسأل الحازم',
-  businessName: 'الحازم جروب',
-  phonePrimary: '01050509779',
-  phoneWhatsApp: '01044111143',
-  address: 'سيدي غازي، كفر الشيخ، أمام موقف الميكروباص',
-  colors: {
-    navy: '#091329',
-    gold: '#C79529',
-    warmWhite: '#F5F4F0',
-  },
-  socialLinks: {
-    whatsapp: 'https://wa.me/201044111143',
-    facebook: '#',
-    instagram: '#',
-  },
-};
+* {
+  box-sizing: border-box;
+}
 
-export const brands: Brand[] = [
-  {
-    id: 'samsung',
-    name: 'Samsung',
-    slug: 'samsung',
-    country: 'كوريا الجنوبية',
-    description: 'علامة رائدة في الأجهزة الذكية والهواتف والعروض المنزلية.',
-    technology: 'AI Home',
-    categories: ['Appliances', 'AC', 'Kitchen'],
-    officialUrl: 'https://www.samsung.com',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/320px-Samsung_Logo.svg.png',
-    sourceStatus: 'Verified',
-  },
-  {
-    id: 'lg',
-    name: 'LG',
-    slug: 'lg',
-    country: 'كوريا الجنوبية',
-    description: 'تكنولوجيا متقدمة في التكييف والغسالات والتفاصيل الذكية.',
-    technology: 'ThinQ',
-    categories: ['Appliances', 'AC'],
-    officialUrl: 'https://www.lg.com',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/LG_logo_%282014%29.svg/320px-LG_logo_%282014%29.svg.png',
-    sourceStatus: 'Verified',
-  },
-  {
-    id: 'bosch',
-    name: 'Bosch',
-    slug: 'bosch',
-    country: 'ألمانيا',
-    description: 'جودة صناعية في الأجهزة المنزلية والمطبخ.',
-    technology: 'HomeConnect',
-    categories: ['Kitchen', 'Appliances'],
-    officialUrl: 'https://www.bosch-home.com',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Bosch-logo.svg/320px-Bosch-logo.svg.png',
-    sourceStatus: 'Verified',
-  },
-  {
-    id: 'beko',
-    name: 'Beko',
-    slug: 'beko',
-    country: 'تركيا',
-    description: 'حلول منزلية قابلة للتوسع بأسعار مناسبة وجودة معقولة.',
-    technology: 'SmartLife',
-    categories: ['Appliances', 'Kitchen'],
-    officialUrl: 'https://www.beko.com',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Beko_logo.svg/320px-Beko_logo.svg.png',
-    sourceStatus: 'Verified',
-  },
-  {
-    id: 'aux',
-    name: 'AUX',
-    slug: 'aux',
-    country: 'الصين',
-    description: 'حلول تكييف ذات كفاءة عالية وتحديثات ذكية.',
-    technology: 'Inverter',
-    categories: ['AC'],
-    officialUrl: 'https://www.aux.com',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/AUX-logo.svg/320px-AUX-logo.svg.png',
-    sourceStatus: 'Documented',
-  },
-];
+html, body, #root {
+  margin: 0;
+  min-height: 100%;
+  font-family: "Tahoma", "Segoe UI", sans-serif;
+  background: var(--warm);
+  color: var(--text);
+}
 
-export const products: Product[] = [
-  {
-    id: 'prod-1',
-    name: 'AUX Inverter AC 1.5 Ton',
-    slug: 'aux-inverter-ac-1-5-ton',
-    brandId: 'aux',
-    manufacturerId: 'aux-man',
-    categoryId: 'ac',
-    model: 'AUX ASW-H12A4',
-    sku: 'AUX-H12A4',
-    gtin: '1234567890123',
-    description: 'مكيف inverter اقتصادي وذكي مناسب للغرف المتوسطة مع كفاءة في استهلاك الطاقة.',
-    specifications: {
-      'نوع الوحدة': 'Split',
-      'القدرة': '1.5 طن',
-      'الكفاءة': 'Inverter',
-      'الحد الأدنى': '15°C',
-      'الضمان': 'سنتان',
-    },
-    dimensions: '90 x 30 x 21 cm',
-    capacity: '1.5 طن',
-    energyInformation: 'EER: 3.4',
-    warranty: 'ضمان 2 سنة على الوحدة الداخلية والخارجية',
-    availability: 'متوفر',
-    officialProductUrl: 'https://www.aux.com',
-    sourceUrl: 'https://www.aux.com',
-    sourceType: 'Official',
-    verificationStatus: 'Verified',
-    verifiedDate: '2026-05-15',
-    published: true,
-    createdAt: '2026-05-15',
-    updatedAt: '2026-05-15',
-    imageUrl: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 'prod-2',
-    name: 'Samsung Front Load Washer',
-    slug: 'samsung-front-load-washer',
-    brandId: 'samsung',
-    manufacturerId: 'samsung-man',
-    categoryId: 'appliances',
-    model: 'WW90T554DAW',
-    sku: 'WW90T554DAW',
-    description: 'غسالة تحميل أمامي ذات سعة كبيرة، مع تقنيات AI وذكية.',
-    specifications: {
-      'النوع': 'Front Load',
-      'السعة': '9 كجم',
-      'التكنولوجيا': 'AI Control',
-      'الضمان': 'سنتان',
-    },
-    dimensions: '85 x 60 x 54 cm',
-    capacity: '9 كجم',
-    energyInformation: 'A+++ / 54 kWh/yr',
-    warranty: 'ضمان 24 شهر',
-    availability: 'متوفر',
-    officialProductUrl: 'https://www.samsung.com',
-    sourceUrl: 'https://www.samsung.com',
-    sourceType: 'Official',
-    verificationStatus: 'Verified',
-    verifiedDate: '2026-05-15',
-    published: true,
-    createdAt: '2026-05-15',
-    updatedAt: '2026-05-15',
-    imageUrl: 'https://images.unsplash.com/photo-1585518419759-7fe2e0fbf8a6?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 'prod-3',
-    name: 'Bosch Built-in Oven',
-    slug: 'bosch-built-in-oven',
-    brandId: 'bosch',
-    manufacturerId: 'bosch-man',
-    categoryId: 'kitchen',
-    model: 'HBG676BS1',
-    sku: 'HBG676BS1',
-    description: 'فرن مدمج ذكي بتقنية HomeConnect وذاكرة طبخ متقدمة.',
-    specifications: {
-      'النوع': 'Built-in',
-      'السعة': '71 لتر',
-      'التكنولوجيا': 'HomeConnect',
-      'الضمان': 'سنتان',
-    },
-    capacity: '71 لتر',
-    warranty: 'ضمان سنة + خدمة',
-    availability: 'لهذا الأسبوع',
-    officialProductUrl: 'https://www.bosch-home.com',
-    sourceUrl: 'https://www.bosch-home.com',
-    sourceType: 'Official',
-    verificationStatus: 'Verified',
-    verifiedDate: '2026-05-15',
-    published: true,
-    createdAt: '2026-05-15',
-    updatedAt: '2026-05-15',
-    imageUrl: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=900&q=80',
-  },
-];
+body {
+  direction: rtl;
+}
 
-export const prices: PriceRecord[] = [
-  {
-    id: 'price-1',
-    productId: 'prod-1',
-    price: 18900,
-    currency: 'EGP',
-    priceType: 'Official Price',
-    source: 'AUX Official Catalog',
-    sourceUrl: 'https://www.aux.com',
-    priceDate: '2026-05-15',
-    verificationStatus: 'Verified',
-  },
-  {
-    id: 'price-2',
-    productId: 'prod-2',
-    price: 26800,
-    currency: 'EGP',
-    priceType: 'Al Hazem Price',
-    source: 'AL HAZEM SMART',
-    sourceUrl: 'https://alhazem.smart',
-    priceDate: '2026-05-15',
-    verificationStatus: 'Verified',
-  },
-  {
-    id: 'price-3',
-    productId: 'prod-3',
-    price: 22400,
-    currency: 'EGP',
-    priceType: 'Trusted Market Price',
-    source: 'Trusted local market',
-    sourceUrl: 'https://trusted.local',
-    priceDate: '2026-05-14',
-    verificationStatus: 'Partially Verified',
-  },
-];
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-export const news: NewsItem[] = [
-  {
-    id: 'n-1',
-    title: 'دليل شراء مكيفات 2026',
-    summary: 'مقارنة بين inverter وnon-inverter والتحكم الذكي.',
-    source: 'Official AC Guide',
-    date: '2026-05-10',
-    verificationStatus: 'Verified',
-    category: 'News',
-  },
-  {
-    id: 'n-2',
-    title: 'كيف تقلل استهلاك الكهرباء في المنزل؟',
-    summary: 'نصائح عملية لخفض الفاتورة مع الحفاظ على الراحة.',
-    source: 'Energy Efficiency Authority',
-    date: '2026-04-22',
-    verificationStatus: 'Verified',
-    category: 'Tip',
-  },
-];
+img {
+  display: block;
+  max-width: 100%;
+}
 
-export const tips: Tip[] = [
-  {
-    id: 't-1',
-    title: 'اختيار الثلاجة المناسبة لغرفة الطعام',
-    body: 'اختر السعة بمعيار عدد الأفراد ومساحة المطبخ وقرب نقاط الخدمة.',
-    category: 'Kitchen',
-    source: 'Brand Manual',
-    date: '2026-05-01',
-    verificationStatus: 'Verified',
-  },
-];
+.container {
+  width: min(1200px, calc(100% - 30px));
+  margin: 0 auto;
+}
 
-export const suppliers: Supplier[] = [
-  {
-    id: 'sp-1',
-    name: 'مصدر HVAC',
-    category: 'AC',
-    status: 'Verified',
-    phone: '01000000000',
-    email: 'supplier@example.com',
-    verified: true,
-  },
-];
+.app-shell {
+  min-height: 100vh;
+}
 
-export const offers = [
-  { id: 'o-1', title: 'خصم الصيف على مكيفات AUX', description: 'خصم حتى 12% على وحدات 1.5-2 طن', status: 'Active' },
-  { id: 'o-2', title: 'عرض تجهيز مطبخ', description: 'خصم على الثلاجات والغسالات مع تركيب', status: 'Active' },
-];
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(9, 19, 41, 0.96);
+  color: white;
+  border-bottom: 1px solid rgba(199, 149, 41, 0.45);
+}
 
-export const academyItems = [
-  { id: 'a-1', title: 'أساسيات اختيار AC', summary: 'تقييم مساحة الغرفة وكمية الإضاءة ومصادر الحرارة' },
-  { id: 'a-2', title: 'دليل شراء الغسالة', summary: 'السعة والموارد وكفاءة الطاقة' },
-];
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 72px;
+  gap: 16px;
+}
 
-export const faqs = [
-  { id: 'f-1', question: 'هل الأسعار متغيرة خلال الموسم؟', answer: 'نعم، وقد يتم تحديث الأسعار بناءً على مصدر الإصدار الرسمي أو السوق الموثق.' },
-  { id: 'f-2', question: 'هل يمكن الاستشارة قبل الشراء؟', answer: 'نعم، يمكن حجز استشارة مجانية أو معاينة فنية.' },
-];
+.brand-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-export const competitions = [
-  { id: 'c-1', title: 'مسابقة العائلة الذكية', conditions: 'مشاركة عبر تسجيل الدخول والاشتراك', prize: 'مكافأة نقدية + أجهزة', deadline: '2026-06-30' },
-];
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  background: var(--gold);
+  color: var(--navy);
+  font-weight: 800;
+  border-radius: 50%;
+}
 
-export const auditLog = [
-  { id: 'audit-1', event: 'Seeded catalog import', user: 'System', timestamp: '2026-05-15', action: 'Create' },
-  { id: 'audit-2', event: 'Price verification', user: 'Editor', timestamp: '2026-05-15', action: 'Verify' },
-];
+.brand-name {
+  font-weight: 800;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.nav a {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.nav a.active {
+  color: var(--gold);
+}
+
+.menu-button {
+  display: none;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 1.2rem;
+}
+
+.page-block {
+  padding: 42px 0 72px;
+}
+
+.hero-card {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 24px;
+  background: linear-gradient(135deg, var(--navy), #162a4d);
+  color: white;
+  border-radius: 24px;
+  padding: 42px;
+  box-shadow: 0 18px 35px var(--shadow);
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 14px;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-card h1 {
+  margin: 0 0 12px;
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+
+.hero-card p {
+  color: rgba(255,255,255,0.82);
+  line-height: 1.9;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.primary-button, .secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+.primary-button {
+  background: var(--gold);
+  color: var(--navy);
+}
+
+.secondary-button {
+  background: white;
+  color: var(--navy);
+}
+
+.small {
+  padding: 8px 12px;
+  font-size: 0.8rem;
+}
+
+.hero-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.mini-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 18px;
+}
+
+.mini-stat strong {
+  font-size: 2rem;
+  color: var(--gold);
+}
+
+.section-block {
+  margin-top: 52px;
+}
+
+.section-block h2 {
+  margin-bottom: 20px;
+  font-size: clamp(1.5rem, 2vw, 2.3rem);
+}
+
+.search-box {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 12px 25px var(--shadow);
+}
+
+.search-box input,
+.panel-form input,
+.panel-form select,
+.compare-controls select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font: inherit;
+  background: white;
+}
+
+.search-large {
+  margin-bottom: 20px;
+}
+
+.feature-grid,
+.cards-grid,
+.brand-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.feature-card,
+.product-card,
+.brand-card,
+.news-card,
+.offer-card,
+.callout,
+.result-box,
+.panel-form,
+.compare-table {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 12px 24px var(--shadow);
+}
+
+.feature-card,
+.news-card,
+.offer-card,
+.result-box,
+.panel-form {
+  padding: 18px;
+}
+
+.product-card {
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-body {
+  padding: 18px;
+}
+
+.badge {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(199, 149, 41, 0.15);
+  color: var(--navy);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.brand-card {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  text-align: center;
+  padding: 18px;
+}
+
+.brand-card img {
+  width: 120px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.site-footer {
+  background: var(--navy);
+  color: white;
+  padding: 36px 0;
+  margin-top: 28px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.footer-grid a {
+  display: block;
+  color: rgba(255,255,255,0.82);
+  margin: 8px 0;
+}
+
+.panel-form {
+  display: grid;
+  gap: 18px;
+}
+
+.panel-form label {
+  display: grid;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.result-box {
+  margin-top: 20px;
+}
+
+.product-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.detail-image {
+  width: 100%;
+  border-radius: 18px;
+  max-height: 420px;
+  object-fit: cover;
+}
+
+.detail-list {
+  padding-right: 18px;
+  line-height: 2;
+}
+
+.compare-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.compare-table th,
+.compare-table td {
+  border: 1px solid var(--border);
+  padding: 12px;
+  text-align: right;
+}
+
+@media (max-width: 760px) {
+  .menu-button {
+    display: inline-block;
+  }
+
+  .nav {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 0 18px;
+  }
+
+  .nav.open {
+    display: flex;
+  }
+
+  .topbar-inner {
+    flex-wrap: wrap;
+    padding: 10px 0;
+  }
+
+  .hero-card,
+  .product-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+}

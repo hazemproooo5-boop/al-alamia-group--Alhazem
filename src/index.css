@@ -1,41 +1,41 @@
+import { ReactNode, useState } from 'react';
 import { Link, NavLink, Route, Routes, useParams } from 'react-router-dom';
-import { useMemo, useState } from 'react';
-import { advisorService, NeedProfile } from './services/advisorService';
+import { academyItems, auditLog, brands, competitions, news, offers, products, siteSettings, suppliers, tips } from './data/seed';
+import { Product, NeedProfile } from './types';
+import { advisorService } from './services/advisorService';
 import { priceService } from './services/priceService';
-import { searchService } from './services/searchService';
 import { verificationService } from './services/verificationService';
-import { brands, products, news, tips, offers, academyItems, suppliers, faqs, competitions, auditLog, siteSettings } from './data/seed';
-import { Product } from './types';
+import { searchService } from './services/searchService';
 
-const categories = [
+const categoryList = [
   { id: 'ac', label: 'AC' },
   { id: 'appliances', label: 'Appliances' },
   { id: 'kitchen', label: 'Kitchen' },
-  { id: 'lighting', label: 'Lighting' },
   { id: 'household', label: 'Household' },
+  { id: 'lighting', label: 'Lighting' },
 ];
 
-function Layout({ children }: { children: React.ReactNode }) {
-  const [navOpen, setNavOpen] = useState(false);
+function Layout({ children }: { children: ReactNode }) {
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className="app-shell">
       <header className="topbar">
         <div className="container topbar-inner">
-          <div className="brand-box">
+          <Link to="/" className="brand-box">
             <div className="brand-mark">A</div>
             <div>
               <div className="brand-name">{siteSettings.brandName}</div>
               <small>{siteSettings.slogan}</small>
             </div>
-          </div>
+          </Link>
 
-          <button className="menu-button" onClick={() => setNavOpen((prev) => !prev)} aria-label="Toggle menu">
+          <button className="menu-button" onClick={() => setMenuOpen((prev) => !prev)}>
             ☰
           </button>
 
-          <nav className={`nav ${navOpen ? 'open' : ''}`}>
-            <NavLink to="/">Home</NavLink>
+          <nav className={`nav ${menuOpen ? 'open' : ''}`}>
+            <NavLink to="/">الرئيسية</NavLink>
             <NavLink to="/need-assessment">Need Assessment</NavLink>
             <NavLink to="/smart-search">Smart Search</NavLink>
             <NavLink to="/compare">Compare</NavLink>
@@ -54,22 +54,52 @@ function Layout({ children }: { children: React.ReactNode }) {
         <div className="container footer-grid">
           <div>
             <h4>{siteSettings.businessName}</h4>
-            <p>الهوية: {siteSettings.slogan}</p>
+            <p>{siteSettings.slogan}</p>
             <p>{siteSettings.address}</p>
           </div>
           <div>
             <h4>تواصل مباشر</h4>
-            <p>هاتف: {siteSettings.phonePrimary}</p>
+            <p>الهاتف: {siteSettings.phonePrimary}</p>
             <p>واتساب: {siteSettings.phoneWhatsApp}</p>
           </div>
           <div>
-            <h4>AUX</h4>
-            <p>معلومات معتمدة ووثائقية داخل المنصة.</p>
-            <Link to="/ac">عرض قسم التكييف</Link>
+            <h4>روابط سريعة</h4>
+            <Link to="/academy">Academy</Link>
+            <Link to="/transparency">Transparency</Link>
+            <Link to="/support">Support</Link>
+            <Link to="/suppliers">Suppliers</Link>
           </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+function ProductCard({ product }: { product: Product }) {
+  const latestPrice = priceService.getLatest(product.id);
+  const badge = verificationService.getDataQualitySummary().summary;
+
+  return (
+    <article className="product-card">
+      <img src={product.imageUrl} alt={product.name} className="product-image" />
+      <div className="product-body">
+        <span className="badge">{product.verificationStatus}</span>
+        <h3>{product.name}</h3>
+        <p>{product.description}</p>
+        <div className="meta-row">
+          <strong>السعر:</strong>
+          <span>{latestPrice ? `${latestPrice.price.toLocaleString()} جنيه` : 'غير متوفر في المصدر الموثق'}</span>
+        </div>
+        <div className="meta-row">
+          <strong>المصدر:</strong>
+          <span>{product.sourceType}</span>
+        </div>
+        <div className="card-actions">
+          <Link to={`/product/${product.slug}`} className="primary-button small">التفاصيل</Link>
+          <Link to="/compare" className="secondary-button small">قارن</Link>
+        </div>
+      </div>
+    </article>
   );
 }
 
@@ -80,24 +110,27 @@ function HomePage() {
         <div>
           <span className="eyebrow">AL HAZEM SMART</span>
           <h1>قبل ما تشتري… اسأل الحازم</h1>
-          <p>منصة عربية متكاملة للبحث عن الأجهزة، مقارنة الأسعار، الاستشارة الفنية، وبرامج الشراء الذكية.</p>
+          <p>
+            المنصة العربية المتكاملة للبحث عن الأجهزة المنزلية، التكييف، المطبخ، الإضاءة، والمقارنة بين المنتجات بناءً على مصدر موثق.
+          </p>
           <div className="actions">
-            <Link className="primary-button" to="/smart-search">ابحث الآن</Link>
-            <Link className="secondary-button" to="/need-assessment">تقييم الاحتياج</Link>
+            <Link to="/smart-search" className="primary-button">ابحث الآن</Link>
+            <Link to="/need-assessment" className="secondary-button">تقييم الاحتياج</Link>
           </div>
         </div>
+
         <div className="hero-panel">
           <div className="mini-stat">
-            <strong>+150</strong>
-            <span>منتج مصنف</span>
+            <strong>12+</strong>
+            <span>ماركات مدرجة</span>
           </div>
           <div className="mini-stat">
-            <strong>12</strong>
-            <span>ماركة</span>
+            <strong>3</strong>
+            <span>منتجات موثقة</span>
           </div>
           <div className="mini-stat">
-            <strong>4.8</strong>
-            <span>مصداقية بيانات</span>
+            <strong>24/7</strong>
+            <span>استشارة</span>
           </div>
         </div>
       </section>
@@ -105,7 +138,7 @@ function HomePage() {
       <section className="section-block">
         <h2>Smart Search</h2>
         <div className="search-box">
-          <input placeholder="ابحث عن مكيف، غسالة، ثلاجة أو معيار" />
+          <input placeholder="ابحث عن مكيف، غسالة، ثلاجة، مطبخ..." />
           <Link to="/smart-search" className="primary-button">بحث</Link>
         </div>
       </section>
@@ -113,14 +146,10 @@ function HomePage() {
       <section className="section-block">
         <h2>Need Assessment</h2>
         <div className="feature-grid">
-          <div className="feature-card"><strong>سجل احتياجك</strong><p>تقييم سريع وملائم لاحتياج المنزل أو المكتب.</p></div>
-          <div className="feature-card"><strong>توصية ذكية</strong><p>تظهر أفضليات المنتجات بناءً على السعر والطاقة والاحتياج.</p></div>
+          <div className="feature-card"><strong>تقييم سريع</strong><p>يتم تحديد احتياج المنزل أو المكتب.</p></div>
+          <div className="feature-card"><strong>مقارنة موثقة</strong><p>المنتجات تُقارن بالأسعار والتكنولوجيا والضمان.</p></div>
+          <div className="feature-card"><strong>توصية ذكية</strong><p>مستندة إلى بيانات products + sources + verification.</p></div>
         </div>
-      </section>
-
-      <section className="section-block">
-        <h2>Consultation</h2>
-        <div className="callout">استشارة فنية، معاينة، أو أفضل عرض سعر مع نسبة مصدر موثّق.</div>
       </section>
 
       <section className="section-block">
@@ -129,7 +158,8 @@ function HomePage() {
           {brands.map((brand) => (
             <Link key={brand.id} to={`/brand/${brand.slug}`} className="brand-card">
               <img src={brand.logo} alt={brand.name} />
-              <span>{brand.name}</span>
+              <strong>{brand.name}</strong>
+              <small>{brand.country}</small>
             </Link>
           ))}
         </div>
@@ -138,7 +168,7 @@ function HomePage() {
       <section className="section-block">
         <h2>Appliances</h2>
         <div className="cards-grid">
-          {products.slice(0, 3).map((product) => (
+          {products.slice(0, 2).map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
@@ -147,8 +177,9 @@ function HomePage() {
       <section className="section-block">
         <h2>AC</h2>
         <div className="cards-grid">
-          <ProductCard product={products[0]} />
-          <ProductCard product={products[0]} />
+          {products.filter((p) => p.categoryId === 'ac').map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
         </div>
       </section>
 
@@ -156,8 +187,8 @@ function HomePage() {
         <h2>Household</h2>
         <div className="feature-grid">
           <div className="feature-card"><strong>Cookware</strong></div>
+          <div className="feature-card"><strong>Plastic</strong></div>
           <div className="feature-card"><strong>Cleaning</strong></div>
-          <div className="feature-card"><strong>Organization</strong></div>
         </div>
       </section>
 
@@ -165,8 +196,8 @@ function HomePage() {
         <h2>Smart Kitchen</h2>
         <div className="feature-grid">
           <div className="feature-card"><strong>Fridge</strong></div>
-          <div className="feature-card"><strong>Gas</strong></div>
           <div className="feature-card"><strong>Microwave</strong></div>
+          <div className="feature-card"><strong>Dishwasher</strong></div>
         </div>
       </section>
 
@@ -175,7 +206,7 @@ function HomePage() {
         <div className="feature-grid">
           <div className="feature-card"><strong>Modern</strong></div>
           <div className="feature-card"><strong>Classic</strong></div>
-          <div className="feature-card"><strong>Decor Ideas</strong></div>
+          <div className="feature-card"><strong>Decor</strong></div>
         </div>
       </section>
 
@@ -231,11 +262,6 @@ function HomePage() {
       </section>
 
       <section className="section-block">
-        <h2>AUX</h2>
-        <div className="callout">مركز التكييف والأنظمة الذكية مع وثائق و(إن لزم) معاينة فنية.</div>
-      </section>
-
-      <section className="section-block">
         <h2>Academy</h2>
         <div className="cards-grid">
           {academyItems.map((item) => (
@@ -249,14 +275,14 @@ function HomePage() {
 
       <section className="section-block">
         <h2>Transparency</h2>
-        <div className="callout">عرض المصدر، حالة التوثيق، والتاريخ لكل منتج أو سعر أو خبر.</div>
+        <div className="callout">المصدر، حالة التوثيق، التاريخ، ومؤشرات الجودة لجميع البيانات.</div>
       </section>
     </div>
   );
 }
 
 function NeedAssessmentPage() {
-  const [state, setState] = useState({ room: 'غرفة نوم', people: 3, needs: 'تبريد', budget: 20000 });
+  const [state, setState] = useState({ room: 'غرفة نوم', people: 3, need: 'تبريد', budget: 20000 });
 
   return (
     <div className="container page-block">
@@ -272,7 +298,7 @@ function NeedAssessmentPage() {
         </label>
         <label>
           الاحتياج
-          <input value={state.needs} onChange={(e) => setState({ ...state, needs: e.target.value })} />
+          <input value={state.need} onChange={(e) => setState({ ...state, need: e.target.value })} />
         </label>
         <label>
           الميزانية (جنيه)
@@ -282,7 +308,7 @@ function NeedAssessmentPage() {
 
       <div className="result-box">
         <h3>Need Fingerprint</h3>
-        <p>{state.room} • {state.people} شخص • {state.needs} • ميزانية {state.budget} جنيه</p>
+        <p>{state.room} • {state.people} أشخاص • {state.need} • {state.budget} جنيه</p>
       </div>
     </div>
   );
@@ -290,54 +316,28 @@ function NeedAssessmentPage() {
 
 function SmartSearchPage() {
   const [term, setTerm] = useState('');
-  const results = searchService.search({ term }) || [];
+  const results = searchService.search({ term });
 
   return (
     <div className="container page-block">
       <h1>Smart Search</h1>
       <div className="search-box search-large">
-        <input value={term} onChange={(e) => setTerm(e.target.value)} placeholder="مثال: مكيف، ثلاجة، غسالة، مطبخ" />
+        <input value={term} onChange={(e) => setTerm(e.target.value)} placeholder="ابحث عن منتج أو ماركة أو موديل" />
       </div>
-
+       
       <div className="cards-grid">
-        {results.length ? results.map((product) => <ProductCard key={product.id} product={product} />) : <div className="feature-card">لا توجد نتيجة في المصدر الموثق حاليا.</div>}
+        {results.length ? results.map((product) => <ProductCard key={product.id} product={product} />) : <div className="feature-card">لا توجد نتائج في المصدر الموثق</div>}
       </div>
     </div>
   );
 }
 
 function ResultsPage() {
-  return <div className="container page-block"><h1>Results</h1><ProductList /></div>;
-}
-
-function ProductList() {
   return (
-    <div className="cards-grid">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
-    </div>
-  );
-}
-
-function ProductCard({ product }: { product: Product }) {
-  const latestPrice = priceService.getLatest(product.id)?.price ?? 'غير متوفر';
-
-  return (
-    <div className="product-card">
-      <img src={product.imageUrl} alt={product.name} />
-      <div className="product-body">
-        <span className="badge">{product.verificationStatus}</span>
-        <h3>{product.name}</h3>
-        <p>{product.description}</p>
-        <div className="meta-row">
-          <strong>السعر:</strong>
-          <span>{typeof latestPrice === 'number' ? `${latestPrice.toLocaleString()} جنيه` : latestPrice}</span>
-        </div>
-        <div className="card-actions">
-          <Link to={`/product/${product.slug}`} className="primary-button small">التفاصيل</Link>
-          <Link to="/compare" className="secondary-button small">قارن</Link>
-        </div>
+    <div className="container page-block">
+      <h1>Results</h1>
+      <div className="cards-grid">
+        {products.map((product) => <ProductCard key={product.id} product={product} />)}
       </div>
     </div>
   );
@@ -355,11 +355,11 @@ function ProductDetailPage() {
         <span className="badge">{product.verificationStatus}</span>
         <h1>{product.name}</h1>
         <p>{product.description}</p>
-        <ul>
+        <ul className="detail-list">
           <li>الموديل: {product.model}</li>
+          <li>السعر: {latestPrice ? `${latestPrice.price.toLocaleString()} جنيه` : 'غير متوفر في المصدر الموثق'}</li>
           <li>الضمان: {product.warranty ?? 'غير متوفر في المصدر الموثق'}</li>
           <li>المصدر: {product.sourceUrl}</li>
-          <li>السعر الحالي: {latestPrice ? `${latestPrice.price.toLocaleString()} جنيه` : 'غير متوفر في المصدر الموثق'}</li>
         </ul>
       </div>
     </div>
@@ -367,8 +367,8 @@ function ProductDetailPage() {
 }
 
 function ComparePage() {
-  const [left, setLeft] = useState(products[0].id);
-  const [right, setRight] = useState(products[1].id);
+  const [left, setLeft] = useState(products[0]?.id ?? '');
+  const [right, setRight] = useState(products[1]?.id ?? '');
 
   const productA = products.find((item) => item.id === left) ?? products[0];
   const productB = products.find((item) => item.id === right) ?? products[1];
@@ -378,10 +378,14 @@ function ComparePage() {
       <h1>Compare</h1>
       <div className="compare-controls">
         <select value={left} onChange={(e) => setLeft(e.target.value)}>
-          {products.map((product) => <option key={product.id} value={product.id}>{product.name}</option>)}
+          {products.map((product) => (
+            <option key={product.id} value={product.id}>{product.name}</option>
+          ))}
         </select>
         <select value={right} onChange={(e) => setRight(e.target.value)}>
-          {products.map((product) => <option key={product.id} value={product.id}>{product.name}</option>)}
+          {products.map((product) => (
+            <option key={product.id} value={product.id}>{product.name}</option>
+          ))}
         </select>
       </div>
 
@@ -389,14 +393,26 @@ function ComparePage() {
         <thead>
           <tr>
             <th>المعيار</th>
-            <th>{productA.name}</th>
-            <th>{productB.name}</th>
+            <th>{productA?.name}</th>
+            <th>{productB?.name}</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Price</td><td>{priceService.getLatest(productA.id)?.price ?? 'غير متوفر'}</td><td>{priceService.getLatest(productB.id)?.price ?? 'غير متوفر'}</td></tr>
-          <tr><td>Energy Consumption</td><td>{productA.energyInformation ?? 'غير متوفر في المصدر الموثق'}</td><td>{productB.energyInformation ?? 'غير متوفر في المصدر الموثق'}</td></tr>
-          <tr><td>Warranty</td><td>{productA.warranty ?? 'غير متوفر في المصدر الموثق'}</td><td>{productB.warranty ?? 'غير متوفر في المصدر الموثق'}</td></tr>
+          <tr>
+            <td>Price</td>
+            <td>{productA ? (priceService.getLatest(productA.id)?.price ? `${priceService.getLatest(productA.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
+            <td>{productB ? (priceService.getLatest(productB.id)?.price ? `${priceService.getLatest(productB.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
+          </tr>
+          <tr>
+            <td>Energy Consumption</td>
+            <td>{productA?.energyInformation ?? 'غير متوفر في المصدر الموثق'}</td>
+            <td>{productB?.energyInformation ?? 'غير متوفر في المصدر الموثق'}</td>
+          </tr>
+          <tr>
+            <td>Warranty</td>
+            <td>{productA?.warranty ?? 'غير متوفر في المصدر الموثق'}</td>
+            <td>{productB?.warranty ?? 'غير متوفر في المصدر الموثق'}</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -404,8 +420,8 @@ function ComparePage() {
 }
 
 function SmartAdvisorPage() {
-  const [profile, setProfile] = useState<NeedProfile>({ category: 'ac', budget: 20000 });
-  const recommendations = advisorService.recommend(profile);
+  const [profile, setProfile] = useState<NeedProfile>({ category: 'ac', budget: 22000, occupants: 4 });
+  const { products: recommendations, explanations } = advisorService.recommend(profile);
 
   return (
     <div className="container page-block">
@@ -415,13 +431,22 @@ function SmartAdvisorPage() {
           الفئة
           <select value={profile.category} onChange={(e) => setProfile({ ...profile, category: e.target.value })}>
             <option value="all">الكل</option>
-            {categories.map((category) => <option key={category.id} value={category.id}>{category.label}</option>)}
+            {categoryList.map((category) => (
+              <option key={category.id} value={category.id}>{category.label}</option>
+            ))}
           </select>
         </label>
         <label>
           الميزانية
-          <input type="number" value={profile.budget} onChange={(e) => setProfile({ ...profile, budget: Number(e.target.value) })} />
+          <input type="number" value={profile.budget ?? 0} onChange={(e) => setProfile({ ...profile, budget: Number(e.target.value) })} />
         </label>
+      </div>
+
+      <div className="result-box">
+        <h3>سبب التوصية</h3>
+        <ul>
+          {explanations.map((item) => <li key={item}>{item}</li>)}
+        </ul>
       </div>
 
       <div className="cards-grid">
@@ -437,7 +462,7 @@ function BrandsPage() {
       <h1>Brands</h1>
       <div className="brand-grid">
         {brands.map((brand) => (
-          <Link key={brand.id} to={`/brand/${brand.slug}`} className="brand-card">
+          <Link to={`/brand/${brand.slug}`} key={brand.id} className="brand-card">
             <img src={brand.logo} alt={brand.name} />
             <strong>{brand.name}</strong>
             <small>{brand.country}</small>
@@ -452,33 +477,50 @@ function BrandDetailPage() {
   const { slug } = useParams();
   const brand = brands.find((item) => item.slug === slug) ?? brands[0];
 
-  const filtered = products.filter((product) => product.brandId === brand.id);
-
   return (
     <div className="container page-block">
       <h1>{brand.name}</h1>
       <p>{brand.description}</p>
-      <p>الدولة: {brand.country}</p>
+      <p>بلد المنشأ: {brand.country}</p>
       <p>التكنولوجيا: {brand.technology}</p>
       <div className="cards-grid">
-        {filtered.map((product) => <ProductCard key={product.id} product={product} />)}
+        {products.filter((product) => product.brandId === brand.id).map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
       </div>
     </div>
   );
 }
 
 function CatalogCenterPage() {
-  return <div className="container page-block"><h1>Catalog Center</h1><ProductList /></div>;
+  return (
+    <div className="container page-block">
+      <h1>Catalog Center</h1>
+      <div className="cards-grid">
+        {products.map((product) => <ProductCard key={product.id} product={product} />)}
+      </div>
+    </div>
+  );
 }
 
-function AppliancesPage() { return <div className="container page-block"><h1>Appliances</h1><ProductList /></div>; }
-function ACPage() { return <div className="container page-block"><h1>AC</h1><ProductList /></div>; }
+function ACPage() {
+  return (
+    <div className="container page-block">
+      <h1>AC</h1>
+      <div className="cards-grid">
+        {products.filter((product) => product.categoryId === 'ac').map((product) => <ProductCard key={product.id} product={product} />)}
+      </div>
+    </div>
+  );
+}
+
 function ACCalculatorPage() {
   const [length, setLength] = useState(5);
   const [width, setWidth] = useState(4);
   const [height, setHeight] = useState(3);
   const [people, setPeople] = useState(4);
-  const estimate = Math.round((length * width * height * 0.065) + people * 250);
+
+  const estimate = Math.round(length * width * height * 120 + people * 300);
 
   return (
     <div className="container page-block">
@@ -489,24 +531,181 @@ function ACCalculatorPage() {
         <label>Height<input type="number" value={height} onChange={(e) => setHeight(Number(e.target.value))} /></label>
         <label>People<input type="number" value={people} onChange={(e) => setPeople(Number(e.target.value))} /></label>
       </div>
-      <div className="result-box"><strong>التقدير التقريبي:</strong> {estimate} BTU</div>
+      <div className="result-box">
+        <strong>التقدير التقريبي:</strong> {estimate} BTU
+      </div>
     </div>
   );
 }
-function HouseholdPage() { return <div className="container page-block"><h1>Household</h1><div className="feature-grid"><div className="feature-card">Cookware</div><div className="feature-card">Cleaning</div><div className="feature-card">Organization</div></div></div>; }
-function SmartKitchenPage() { return <div className="container page-block"><h1>Smart Kitchen</h1><div className="feature-grid"><div className="feature-card">Fridge</div><div className="feature-card">Gas</div><div className="feature-card">Microwave</div></div></div>; }
-function LightingPage() { return <div className="container page-block"><h1>Lighting / Chandeliers / Antiques</h1><div className="feature-grid"><div className="feature-card">Modern</div><div className="feature-card">Classic</div><div className="feature-card">Decor</div></div></div>; }
-function OffersPage() { return <div className="container page-block"><h1>Offers</h1><div className="cards-grid">{offers.map((offer) => <div className="offer-card" key={offer.id}><h3>{offer.title}</h3><p>{offer.description}</p></div>)}</div></div>; }
-function NewsPage() { return <div className="container page-block"><h1>News</h1><div className="cards-grid">{news.map((item) => <article className="news-card" key={item.id}><h3>{item.title}</h3><p>{item.summary}</p></article>)}</div></div>; }
-function TipsPage() { return <div className="container page-block"><h1>Tips</h1><div className="cards-grid">{tips.map((tip) => <article className="news-card" key={tip.id}><h3>{tip.title}</h3><p>{tip.body}</p></article>)}</div></div>; }
-function AcademyPage() { return <div className="container page-block"><h1>Academy</h1><div className="cards-grid">{academyItems.map((item) => <div className="feature-card" key={item.id}><h3>{item.title}</h3><p>{item.summary}</p></div>)}</div></div>; }
-function TransparencyPage() { return <div className="container page-block"><h1>Transparency</h1><div className="cards-grid">{auditLog.map((entry) => <div className="feature-card" key={entry.id}><h3>{entry.event}</h3><p>{entry.user} • {entry.action}</p></div>)}</div></div>; }
-function CompetitionsPage() { return <div className="container page-block"><h1>Competitions</h1>{competitions.map((entry) => <div className="feature-card" key={entry.id}><h3>{entry.title}</h3><p>{entry.conditions}</p><small>{entry.prize}</small></div>)}</div>; }
-function SupportPage() { return <div className="container page-block"><h1>Support</h1><p>خدمة العملاء والاستشارات المعاينة كما تم إدراجها.</p></div>; }
-function SuppliersPage() { return <div className="container page-block"><h1>Suppliers</h1>{suppliers.map((supplier) => <div className="feature-card" key={supplier.id}><h3>{supplier.name}</h3><p>{supplier.category} • {supplier.status}</p></div>)}</div>; }
-function DecisionBoardPage() { return <div className="container page-block"><h1>Decision Board</h1><div className="panel-form"><label>Need Fingerprint<input defaultValue="غرفة نوم / 3 أشخاص / ميزانية 20,000" /></label></div></div>; }
+
+function HouseholdPage() {
+  return (
+    <div className="container page-block">
+      <h1>Household</h1>
+      <div className="feature-grid">
+        <div className="feature-card"><strong>Cookware</strong></div>
+        <div className="feature-card"><strong>Pots</strong></div>
+        <div className="feature-card"><strong>Cleaning</strong></div>
+      </div>
+    </div>
+  );
+}
+
+function SmartKitchenPage() {
+  return (
+    <div className="container page-block">
+      <h1>Smart Kitchen</h1>
+      <div className="feature-grid">
+        <div className="feature-card"><strong>Fridge</strong></div>
+        <div className="feature-card"><strong>Gas Stove</strong></div>
+        <div className="feature-card"><strong>Microwave</strong></div>
+      </div>
+    </div>
+  );
+}
+
+function LightingPage() {
+  return (
+    <div className="container page-block">
+      <h1>Lighting / Chandeliers / Antiques</h1>
+      <div className="feature-grid">
+        <div className="feature-card"><strong>Modern</strong></div>
+        <div className="feature-card"><strong>Classic</strong></div>
+        <div className="feature-card"><strong>Antiques</strong></div>
+      </div>
+    </div>
+  );
+}
+
+function OffersPage() {
+  return (
+    <div className="container page-block">
+      <h1>Offers</h1>
+      <div className="cards-grid">
+        {offers.map((offer) => (
+          <div key={offer.id} className="feature-card">
+            <h3>{offer.title}</h3>
+            <p>{offer.description}</p>
+            <small>{offer.status}</small>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function NewsPage() {
+  return (
+    <div className="container page-block">
+      <h1>News</h1>
+      <div className="cards-grid">
+        {news.map((item) => (
+          <article key={item.id} className="news-card">
+            <h3>{item.title}</h3>
+            <p>{item.summary}</p>
+            <small>{item.source}</small>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TipsPage() {
+  return (
+    <div className="container page-block">
+      <h1>Tips</h1>
+      <div className="cards-grid">
+        {tips.map((tip) => (
+          <article key={tip.id} className="news-card">
+            <h3>{tip.title}</h3>
+            <p>{tip.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AcademyPage() {
+  return (
+    <div className="container page-block">
+      <h1>Academy</h1>
+      <div className="cards-grid">
+        {academyItems.map((item) => (
+          <div key={item.id} className="feature-card">
+            <strong>{item.title}</strong>
+            <p>{item.summary}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TransparencyPage() {
+  return (
+    <div className="container page-block">
+      <h1>Transparency</h1>
+      <div className="cards-grid">
+        {auditLog.map((entry) => (
+          <div key={entry.id} className="feature-card">
+            <strong>{entry.action}</strong>
+            <p>{entry.event}</p>
+            <small>{entry.user}</small>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CompetitionsPage() {
+  return (
+    <div className="container page-block">
+      <h1>Competitions</h1>
+      <div className="cards-grid">
+        {competitions.map((entry) => (
+          <div key={entry.id} className="feature-card">
+            <strong>{entry.title}</strong>
+            <p>{entry.conditions}</p>
+            <small>{entry.prize}</small>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SupportPage() {
+  return (
+    <div className="container page-block">
+      <h1>Support</h1>
+      <div className="callout">خدمة الدعم، الاستشارة، المعاينة الفنية، ولوحة الاتصال.</div>
+    </div>
+  );
+}
+
+function SuppliersPage() {
+  return (
+    <div className="container page-block">
+      <h1>Suppliers</h1>
+      <div className="cards-grid">
+        {suppliers.map((supplier) => (
+          <div key={supplier.id} className="feature-card">
+            <strong>{supplier.name}</strong>
+            <p>{supplier.category}</p>
+            <small>{supplier.status}</small>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function AdminPage() {
-  const summary = verificationService.getDataQualitySummary();
+  const summary = verificationService.getDataQualitySummary().summary;
+
   return (
     <div className="container page-block">
       <h1>Admin Dashboard</h1>
@@ -516,15 +715,17 @@ function AdminPage() {
         <div className="feature-card"><strong>Missing Specs</strong><p>{summary.missingSpecs}</p></div>
         <div className="feature-card"><strong>Stale Prices</strong><p>{summary.stalePrices}</p></div>
       </div>
-      <div className="cards-grid">
-        {auditLog.map((entry) => <div key={entry.id} className="feature-card"><strong>{entry.action}</strong><p>{entry.event}</p></div>)}
-      </div>
     </div>
   );
 }
 
 function NotFoundPage() {
-  return <div className="container page-block"><h1>404 — صفحة غير موجودة</h1><Link to="/">العودة إلى الرئيسية</Link></div>;
+  return (
+    <div className="container page-block">
+      <h1>404 — صفحة غير موجودة</h1>
+      <Link to="/" className="primary-button">العودة للصفحة الرئيسية</Link>
+    </div>
+  );
 }
 
 function App() {
@@ -541,7 +742,7 @@ function App() {
         <Route path="/brands" element={<BrandsPage />} />
         <Route path="/brand/:slug" element={<BrandDetailPage />} />
         <Route path="/catalog-center" element={<CatalogCenterPage />} />
-        <Route path="/appliances" element={<AppliancesPage />} />
+        <Route path="/appliances" element={<CatalogCenterPage />} />
         <Route path="/ac" element={<ACPage />} />
         <Route path="/ac-calculator" element={<ACCalculatorPage />} />
         <Route path="/household" element={<HouseholdPage />} />
@@ -555,9 +756,7 @@ function App() {
         <Route path="/competitions" element={<CompetitionsPage />} />
         <Route path="/support" element={<SupportPage />} />
         <Route path="/suppliers" element={<SuppliersPage />} />
-        <Route path="/decision-board" element={<DecisionBoardPage />} />
         <Route path="/admin" element={<AdminPage />} />
-        <Route path="/a4" element={<NotFoundPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Layout>

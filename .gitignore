@@ -1,0 +1,117 @@
+export type Brand = {
+  id: string;
+  name: string;
+  slug: string;
+  country: string;
+  description: string;
+  technology: string;
+  categories: string[];
+  officialUrl: string;
+  logo: string;
+  sourceStatus: 'Verified' | 'Documented' | 'Monitoring';
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Product = {
+  id: string;
+  name: string;
+  slug: string;
+  brandId: string;
+  manufacturerId: string;
+  categoryId: string;
+  model: string;
+  sku: string;
+  gtin?: string;
+  description: string;
+  specifications: Record<string, string>;
+  dimensions?: string;
+  capacity?: string;
+  energyInformation?: string;
+  warranty?: string;
+  availability: string;
+  officialProductUrl?: string;
+  sourceUrl: string;
+  sourceType: 'Official' | 'Trusted Market' | 'Unverified Market';
+  verificationStatus: 'Verified' | 'Partially Verified' | 'Unverified';
+  verifiedDate?: string;
+  published: boolean;
+  createdAt: string;
+  updatedAt: string;
+  imageUrl: string;
+};
+
+export type PriceRecord = {
+  id: string;
+  productId: string;
+  price: number;
+  currency: 'EGP';
+  priceType: 'Official Price' | 'Al Hazem Price' | 'Trusted Market Price' | 'Unverified Market Price';
+  source: string;
+  sourceUrl: string;
+  priceDate: string;
+  verificationStatus: 'Verified' | 'Partially Verified' | 'Unverified';
+  isHistorical?: boolean;
+  createdAt: string;
+};
+
+export type NewsItem = {
+  id: string;
+  title: string;
+  summary: string;
+  source: string;
+  date: string;
+  verificationStatus: 'Verified' | 'Partially Verified' | 'Unverified';
+  category: 'News' | 'Tip' | 'Academy';
+  published: boolean;
+  createdAt: string;
+};
+
+export type Tip = {
+  id: string;
+  title: string;
+  body: string;
+  category: string;
+  source: string;
+  date: string;
+  verificationStatus: 'Verified' | 'Partially Verified' | 'Unverified';
+  published: boolean;
+  createdAt: string;
+};
+
+export type Supplier = {
+  id: string;
+  name: string;
+  category: string;
+  status: string;
+  phone: string;
+  email: string;
+  verified: boolean;
+  createdAt: string;
+};
+
+export type SiteSettings = {
+  brandName: string;
+  slogan: string;
+  businessName: string;
+  phonePrimary: string;
+  phoneWhatsApp: string;
+  address: string;
+  colors: {
+    navy: string;
+    gold: string;
+    warmWhite: string;
+  };
+  socialLinks: {
+    whatsapp: string;
+    facebook: string;
+    instagram: string;
+  };
+};
+
+export type NeedProfile = {
+  category: string;
+  budget?: number;
+  occupants?: number;
+  climate?: string;
+};
