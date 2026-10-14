@@ -1,0 +1,513 @@
+import { ReactNode, useState } from 'react';
+import { Link, NavLink, Route, Routes, useParams } from 'react-router-dom';
+import { academyItems, auditLog, brands, competitions, news, offers, products, siteSettings, suppliers, tips } from './data/seed';
+import { NeedProfile, Product } from './types';
+import { advisorService } from './services/advisorService';
+import { priceService } from './services/priceService';
+import { verificationService } from './services/verificationService';
+import { searchService } from './services/searchService';
+
+const categoryList = [
+  { id: 'ac', label: 'AC' },
+  { id: 'appliances', label: 'Appliances' },
+  { id: 'kitchen', label: 'Kitchen' },
+  { id: 'household', label: 'Household' },
+  { id: 'lighting', label: 'Lighting' },
+];
+
+function Layout({ children }: { children: ReactNode }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <div className="app-shell">
+      <header className="topbar">
+        <div className="container topbar-inner">
+          <Link to="/" className="brand-box">
+            <div className="brand-mark">A</div>
+            <div>
+              <div className="brand-name">{siteSettings.brandName}</div>
+              <small>{siteSettings.slogan}</small>
+            </div>
+          </Link>
+
+          <button className="menu-button" onClick={() => setMenuOpen((prev) => !prev)} aria-label="Toggle menu">
+            ☰
+          </button>
+
+          <nav className={`nav ${menuOpen ? 'open' : ''}`}>
+            <NavLink to="/">الرئيسية</NavLink>
+            <NavLink to="/need-assessment">Need Assessment</NavLink>
+            <NavLink to="/smart-search">Smart Search</NavLink>
+            <NavLink to="/compare">Compare</NavLink>
+            <NavLink to="/brands">Brands</NavLink>
+            <NavLink to="/catalog-center">Catalog Center</NavLink>
+            <NavLink to="/ac">AC</NavLink>
+            <NavLink to="/offers">Offers</NavLink>
+            <NavLink to="/admin">Admin</NavLink>
+          </nav>
+        </div>
+      </header>
+
+      <main>{children}</main>
+
+      <footer className="site-footer">
+        <div className="container footer-grid">
+          <div>
+            <h4>{siteSettings.businessName}</h4>
+            <p>{siteSettings.slogan}</p>
+            <p>{siteSettings.address}</p>
+          </div>
+          <div>
+            <h4>تواصل مباشر</h4>
+            <p>الهاتف: {siteSettings.phonePrimary}</p>
+            <p>واتساب: {siteSettings.phoneWhatsApp}</p>
+          </div>
+          <div>
+            <h4>روابط سريعة</h4>
+            <Link to="/academy">Academy</Link>
+            <Link to="/transparency">Transparency</Link>
+            <Link to="/support">Support</Link>
+            <Link to="/suppliers">Suppliers</Link>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+function ProductCard({ product }: { product: Product }) {
+  const latestPrice = priceService.getLatest(product.id);
+
+  return (
+    <article className="product-card">
+      <img src={product.imageUrl} alt={product.name} className="product-image" />
+      <div className="product-body">
+        <span className="badge">{product.verificationStatus}</span>
+        <h3>{product.name}</h3>
+        <p>{product.description}</p>
+        <div className="meta-row">
+          <strong>السعر:</strong>
+          <span>{latestPrice ? `${latestPrice.price.toLocaleString()} جنيه` : 'غير متوفر في المصدر الموثق'}</span>
+        </div>
+        <div className="meta-row">
+          <strong>المصدر:</strong>
+          <span>{product.sourceType}</span>
+        </div>
+        <div className="card-actions">
+          <Link to={`/product/${product.slug}`} className="primary-button small">التفاصيل</Link>
+          <Link to="/compare" className="secondary-button small">قارن</Link>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function HomePage() {
+  return (
+    <div className="container page-block">
+      <section className="hero-card">
+        <div>
+          <span className="eyebrow">AL HAZEM SMART</span>
+          <h1>قبل ما تشتري… اسأل الحازم</h1>
+          <p>المنصة العربية المتكاملة للبحث عن الأجهزة المنزلية، التكييف، المطبخ، الإضاءة، والمقارنة بين المنتجات بناءً على مصدر موثق.</p>
+          <div className="actions">
+            <Link to="/smart-search" className="primary-button">ابحث الآن</Link>
+            <Link to="/need-assessment" className="secondary-button">تقييم الاحتياج</Link>
+          </div>
+        </div>
+
+        <div className="hero-panel">
+          <div className="mini-stat">
+            <strong>12+</strong>
+            <span>ماركات مدرجة</span>
+          </div>
+          <div className="mini-stat">
+            <strong>3</strong>
+            <span>منتجات موثقة</span>
+          </div>
+          <div className="mini-stat">
+            <strong>24/7</strong>
+            <span>استشارة</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-block">
+        <h2>Smart Search</h2>
+        <div className="search-box">
+          <input placeholder="ابحث عن مكيف، غسالة، ثلاجة، مطبخ..." />
+          <Link to="/smart-search" className="primary-button">بحث</Link>
+        </div>
+      </section>
+
+      <section className="section-block">
+        <h2>Need Assessment</h2>
+        <div className="feature-grid">
+          <div className="feature-card"><strong>تقييم سريع</strong><p>يتم تحديد احتياج المنزل أو المكتب.</p></div>
+          <div className="feature-card"><strong>مقارنة موثقة</strong><p>المنتجات تُقارن بالأسعار والتكنولوجيا والضمان.</p></div>
+          <div className="feature-card"><strong>توصية ذكية</strong><p>مستندة إلى بيانات products + sources + verification.</p></div>
+        </div>
+      </section>
+
+      <section className="section-block">
+        <h2>Brands</h2>
+        <div className="brand-grid">
+          {brands.map((brand) => (
+            <Link key={brand.id} to={`/brand/${brand.slug}`} className="brand-card">
+              <img src={brand.logo} alt={brand.name} />
+              <strong>{brand.name}</strong>
+              <small>{brand.country}</small>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="section-block">
+        <h2>Appliances</h2>
+        <div className="cards-grid">
+          {products.slice(0, 2).map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </section>
+
+      <section className="section-block">
+        <h2>AC</h2>
+        <div className="cards-grid">
+          {products.filter((p) => p.categoryId === 'ac').map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </section>
+
+      <section className="section-block">
+        <h2>Offers</h2>
+        <div className="cards-grid">
+          {offers.map((offer) => (
+            <div key={offer.id} className="offer-card">
+              <h3>{offer.title}</h3>
+              <p>{offer.description}</p>
+              <small>{offer.status}</small>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section-block">
+        <h2>News</h2>
+        <div className="cards-grid">
+          {news.map((item) => (
+            <article key={item.id} className="news-card">
+              <h3>{item.title}</h3>
+              <p>{item.summary}</p>
+              <small>{item.source}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section-block">
+        <h2>Tips</h2>
+        <div className="cards-grid">
+          {tips.map((tip) => (
+            <article key={tip.id} className="news-card">
+              <h3>{tip.title}</h3>
+              <p>{tip.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section-block">
+        <h2>Competitions</h2>
+        <div className="cards-grid">
+          {competitions.map((entry) => (
+            <div key={entry.id} className="feature-card">
+              <strong>{entry.title}</strong>
+              <p>{entry.conditions}</p>
+              <small>{entry.prize}</small>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section-block">
+        <h2>Academy</h2>
+        <div className="cards-grid">
+          {academyItems.map((item) => (
+            <div key={item.id} className="feature-card">
+              <strong>{item.title}</strong>
+              <p>{item.summary}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function NeedAssessmentPage() {
+  const [state, setState] = useState({ room: 'غرفة نوم', people: 3, need: 'تبريد', budget: 20000 });
+
+  return (
+    <div className="container page-block">
+      <h1>Need Assessment</h1>
+      <form className="panel-form">
+        <label>
+          نوع الغرفة
+          <input value={state.room} onChange={(e) => setState({ ...state, room: e.target.value })} />
+        </label>
+        <label>
+          عدد السكان
+          <input type="number" value={state.people} onChange={(e) => setState({ ...state, people: Number(e.target.value) })} />
+        </label>
+        <label>
+          الاحتياج
+          <input value={state.need} onChange={(e) => setState({ ...state, need: e.target.value })} />
+        </label>
+        <label>
+          الميزانية (جنيه)
+          <input type="number" value={state.budget} onChange={(e) => setState({ ...state, budget: Number(e.target.value) })} />
+        </label>
+      </form>
+
+      <div className="result-box">
+        <h3>Need Fingerprint</h3>
+        <p>{state.room} • {state.people} أشخاص • {state.need} • {state.budget} جنيه</p>
+      </div>
+    </div>
+  );
+}
+
+function SmartSearchPage() {
+  const [term, setTerm] = useState('');
+  const results = searchService.search({ term });
+
+  return (
+    <div className="container page-block">
+      <h1>Smart Search</h1>
+      <div className="search-box search-large">
+        <input value={term} onChange={(e) => setTerm(e.target.value)} placeholder="ابحث عن منتج أو ماركة أو موديل" />
+      </div>
+
+      <div className="cards-grid">
+        {results.length ? results.map((product) => <ProductCard key={product.id} product={product} />) : <div className="feature-card">لا توجد نتائج في المصدر الموثق</div>}
+      </div>
+    </div>
+  );
+}
+
+function ProductDetailPage() {
+  const { slug } = useParams();
+  const product = products.find((item) => item.slug === slug) ?? products[0];
+  const latestPrice = priceService.getLatest(product.id);
+
+  return (
+    <div className="container page-block product-detail">
+      <img src={product.imageUrl} alt={product.name} className="detail-image" />
+      <div>
+        <span className="badge">{product.verificationStatus}</span>
+        <h1>{product.name}</h1>
+        <p>{product.description}</p>
+        <ul className="detail-list">
+          <li>الموديل: {product.model}</li>
+          <li>السعر: {latestPrice ? `${latestPrice.price.toLocaleString()} جنيه` : 'غير متوفر في المصدر الموثق'}</li>
+          <li>الضمان: {product.warranty ?? 'غير متوفر في المصدر الموثق'}</li>
+          <li>المصدر: {product.sourceUrl}</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function ComparePage() {
+  const [left, setLeft] = useState(products[0]?.id ?? '');
+  const [right, setRight] = useState(products[1]?.id ?? '');
+
+  const productA = products.find((item) => item.id === left) ?? products[0];
+  const productB = products.find((item) => item.id === right) ?? products[1];
+
+  return (
+    <div className="container page-block">
+      <h1>Compare</h1>
+      <div className="compare-controls">
+        <select value={left} onChange={(e) => setLeft(e.target.value)}>
+          {products.map((product) => <option key={product.id} value={product.id}>{product.name}</option>)}
+        </select>
+        <select value={right} onChange={(e) => setRight(e.target.value)}>
+          {products.map((product) => <option key={product.id} value={product.id}>{product.name}</option>)}
+        </select>
+      </div>
+
+      <table className="compare-table">
+        <thead>
+          <tr>
+            <th>المعيار</th>
+            <th>{productA?.name}</th>
+            <th>{productB?.name}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Price</td>
+            <td>{productA ? (priceService.getLatest(productA.id)?.price ? `${priceService.getLatest(productA.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
+            <td>{productB ? (priceService.getLatest(productB.id)?.price ? `${priceService.getLatest(productB.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
+          </tr>
+          <tr>
+            <td>Energy Consumption</td>
+            <td>{productA?.energyInformation ?? 'غير متوفر في المصدر الموثق'}</td>
+            <td>{productB?.energyInformation ?? 'غير متوفر في المصدر الموثق'}</td>
+          </tr>
+          <tr>
+            <td>Warranty</td>
+            <td>{productA?.warranty ?? 'غير متوفر في المصدر الموثق'}</td>
+            <td>{productB?.warranty ?? 'غير متوفر في المصدر الموثق'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function SmartAdvisorPage() {
+  const [profile, setProfile] = useState<NeedProfile>({ category: 'ac', budget: 22000, occupants: 4 });
+  const { products: recommendations, explanations } = advisorService.recommend(profile);
+
+  return (
+    <div className="container page-block">
+      <h1>Smart Advisor</h1>
+      <div className="panel-form">
+        <label>
+          الفئة
+          <select value={profile.category} onChange={(e) => setProfile({ ...profile, category: e.target.value })}>
+            <option value="all">الكل</option>
+            {categoryList.map((category) => (
+              <option key={category.id} value={category.id}>{category.label}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          الميزانية
+          <input type="number" value={profile.budget ?? 0} onChange={(e) => setProfile({ ...profile, budget: Number(e.target.value) })} />
+        </label>
+      </div>
+
+      <div className="result-box">
+        <h3>سبب التوصية</h3>
+        <ul>
+          {explanations.map((item) => <li key={item}>{item}</li>)}
+        </ul>
+      </div>
+
+      <div className="cards-grid">
+        {recommendations.map((product) => <ProductCard key={product.id} product={product} />)}
+      </div>
+    </div>
+  );
+}
+
+function BrandsPage() {
+  return (
+    <div className="container page-block">
+      <h1>Brands</h1>
+      <div className="brand-grid">
+        {brands.map((brand) => (
+          <Link to={`/brand/${brand.slug}`} key={brand.id} className="brand-card">
+            <img src={brand.logo} alt={brand.name} />
+            <strong>{brand.name}</strong>
+            <small>{brand.country}</small>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BrandDetailPage() {
+  const { slug } = useParams();
+  const brand = brands.find((item) => item.slug === slug) ?? brands[0];
+
+  return (
+    <div className="container page-block">
+      <h1>{brand.name}</h1>
+      <p>{brand.description}</p>
+      <p>بلد المنشأ: {brand.country}</p>
+      <p>التكنولوجيا: {brand.technology}</p>
+      <div className="cards-grid">
+        {products.filter((product) => product.brandId === brand.id).map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CatalogCenterPage() {
+  return (
+    <div className="container page-block">
+      <h1>Catalog Center</h1>
+      <div className="cards-grid">
+        {products.map((product) => <ProductCard key={product.id} product={product} />)}
+      </div>
+    </div>
+  );
+}
+
+function ACPage() {
+  return (
+    <div className="container page-block">
+      <h1>AC</h1>
+      <div className="cards-grid">
+        {products.filter((product) => product.categoryId === 'ac').map((product) => <ProductCard key={product.id} product={product} />)}
+      </div>
+    </div>
+  );
+}
+
+function AdminPage() {
+  const summary = verificationService.getDataQualitySummary().summary;
+
+  return (
+    <div className="container page-block">
+      <h1>Admin Dashboard</h1>
+      <div className="cards-grid">
+        <div className="feature-card"><strong>Missing Images</strong><p>{summary.missingImages}</p></div>
+        <div className="feature-card"><strong>Missing Sources</strong><p>{summary.missingSources}</p></div>
+        <div className="feature-card"><strong>Missing Specs</strong><p>{summary.missingSpecs}</p></div>
+        <div className="feature-card"><strong>Stale Prices</strong><p>{summary.stalePrices}</p></div>
+      </div>
+    </div>
+  );
+}
+
+function NotFoundPage() {
+  return (
+    <div className="container page-block">
+      <h1>404 — صفحة غير موجودة</h1>
+      <Link to="/" className="primary-button">العودة للصفحة الرئيسية</Link>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Layout>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/need-assessment" element={<NeedAssessmentPage />} />
+        <Route path="/smart-search" element={<SmartSearchPage />} />
+        <Route path="/product/:slug" element={<ProductDetailPage />} />
+        <Route path="/compare" element={<ComparePage />} />
+        <Route path="/smart-advisor" element={<SmartAdvisorPage />} />
+        <Route path="/brands" element={<BrandsPage />} />
+        <Route path="/brand/:slug" element={<BrandDetailPage />} />
+        <Route path="/catalog-center" element={<CatalogCenterPage />} />
+        <Route path="/ac" element={<ACPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Layout>
+  );
+}
+
+export default App;
