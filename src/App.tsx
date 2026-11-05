@@ -16,63 +16,22 @@ const categoryList = [
 ];
 
 function Layout({ children }: { children: ReactNode }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  return (
-    <div className="app-shell">
-      <header className="topbar">
-        <div className="container topbar-inner">
-          <Link to="/" className="brand-box">
-            <div className="brand-mark">A</div>
-            <div>
-              <div className="brand-name">{siteSettings.brandName}</div>
-              <small>{siteSettings.slogan}</small>
-            </div>
-          </Link>
-
-          <button className="menu-button" onClick={() => setMenuOpen((prev) => !prev)} aria-label="Toggle menu">
-            ☰
-          </button>
-
-          <nav className={`nav ${menuOpen ? 'open' : ''}`}>
-            <NavLink to="/">الرئيسية</NavLink>
-            <NavLink to="/need-assessment">Need Assessment</NavLink>
-            <NavLink to="/smart-search">Smart Search</NavLink>
-            <NavLink to="/compare">Compare</NavLink>
-            <NavLink to="/brands">Brands</NavLink>
-            <NavLink to="/catalog-center">Catalog Center</NavLink>
-            <NavLink to="/ac">AC</NavLink>
-            <NavLink to="/offers">Offers</NavLink>
-            <NavLink to="/admin">Admin</NavLink>
-          </nav>
-        </div>
-      </header>
-
-      <main>{children}</main>
-
-      <footer className="site-footer">
-        <div className="container footer-grid">
-          <div>
-            <h4>{siteSettings.businessName}</h4>
-            <p>{siteSettings.slogan}</p>
-            <p>{siteSettings.address}</p>
-          </div>
-          <div>
-            <h4>تواصل مباشر</h4>
-            <p>الهاتف: {siteSettings.phonePrimary}</p>
-            <p>واتساب: {siteSettings.phoneWhatsApp}</p>
-          </div>
-          <div>
-            <h4>روابط سريعة</h4>
-            <Link to="/academy">Academy</Link>
-            <Link to="/transparency">Transparency</Link>
-            <Link to="/support">Support</Link>
-            <Link to="/suppliers">Suppliers</Link>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
+ const [menuOpen,setMenuOpen]=useState(false);
+ const closeMenu=()=>setMenuOpen(false);
+ return <div className="app-shell">
+  <header className="topbar"><div className="container topbar-inner">
+   <Link to="/" className="brand-box" onClick={closeMenu}><div className="brand-mark">ح</div><div><div className="brand-name">{siteSettings.brandName}</div><small>{siteSettings.slogan}</small></div></Link>
+   <button className="menu-button" onClick={()=>setMenuOpen(p=>!p)} aria-label="فتح أو إغلاق القائمة" aria-expanded={menuOpen}>☰</button>
+   <nav className={menuOpen?"nav open":"nav"} aria-label="القائمة الرئيسية">
+    <NavLink to="/" onClick={closeMenu}>الرئيسية</NavLink><NavLink to="/catalog-center" onClick={closeMenu}>الأجهزة</NavLink><NavLink to="/ac" onClick={closeMenu}>التكييف</NavLink><NavLink to="/brands" onClick={closeMenu}>الماركات</NavLink><NavLink to="/compare" onClick={closeMenu}>المقارنة</NavLink><NavLink to="/smart-advisor" onClick={closeMenu}>المستشار الذكي</NavLink><NavLink to="/academy" onClick={closeMenu}>الأكاديمية</NavLink><NavLink to="/offers" onClick={closeMenu}>العروض</NavLink>
+   </nav></div></header>
+  <main>{children}</main>
+  <footer className="site-footer"><div className="container footer-grid">
+   <div><h4>{siteSettings.businessName}</h4><p>{siteSettings.slogan}</p><p>{siteSettings.address}</p><small>منصة تساعدك على الاختيار بثقة — وليست متجرًا إلكترونيًا تقليديًا.</small></div>
+   <div><h4>استكشف الحازم</h4><Link to="/catalog-center">كتالوج الأجهزة</Link><Link to="/brands">مركز الماركات</Link><Link to="/compare">مركز المقارنة</Link><Link to="/smart-advisor">المستشار الذكي</Link></div>
+   <div><h4>المعرفة والشفافية</h4><Link to="/academy">أكاديمية الحازم</Link><Link to="/transparency">منهجية التحقق</Link><Link to="/support">خدمة العملاء</Link><Link to="/suppliers">معلومات الموردين</Link></div>
+  </div></footer>
+ </div>;
 }
 
 function ProductCard({ product }: { product: Product }) {
@@ -103,148 +62,29 @@ function ProductCard({ product }: { product: Product }) {
 }
 
 function HomePage() {
-  return (
-    <div className="container page-block">
-      <section className="hero-card">
-        <div>
-          <span className="eyebrow">AL HAZEM SMART</span>
-          <h1>قبل ما تشتري… اسأل الحازم</h1>
-          <p>المنصة العربية المتكاملة للبحث عن الأجهزة المنزلية، التكييف، المطبخ، الإضاءة، والمقارنة بين المنتجات بناءً على مصدر موثق.</p>
-          <div className="actions">
-            <Link to="/smart-search" className="primary-button">ابحث الآن</Link>
-            <Link to="/need-assessment" className="secondary-button">تقييم الاحتياج</Link>
-          </div>
-        </div>
-
-        <div className="hero-panel">
-          <div className="mini-stat">
-            <strong>12+</strong>
-            <span>ماركات مدرجة</span>
-          </div>
-          <div className="mini-stat">
-            <strong>3</strong>
-            <span>منتجات موثقة</span>
-          </div>
-          <div className="mini-stat">
-            <strong>24/7</strong>
-            <span>استشارة</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-block">
-        <h2>Smart Search</h2>
-        <div className="search-box">
-          <input placeholder="ابحث عن مكيف، غسالة، ثلاجة، مطبخ..." />
-          <Link to="/smart-search" className="primary-button">بحث</Link>
-        </div>
-      </section>
-
-      <section className="section-block">
-        <h2>Need Assessment</h2>
-        <div className="feature-grid">
-          <div className="feature-card"><strong>تقييم سريع</strong><p>يتم تحديد احتياج المنزل أو المكتب.</p></div>
-          <div className="feature-card"><strong>مقارنة موثقة</strong><p>المنتجات تُقارن بالأسعار والتكنولوجيا والضمان.</p></div>
-          <div className="feature-card"><strong>توصية ذكية</strong><p>مستندة إلى بيانات products + sources + verification.</p></div>
-        </div>
-      </section>
-
-      <section className="section-block">
-        <h2>Brands</h2>
-        <div className="brand-grid">
-          {brands.map((brand) => (
-            <Link key={brand.id} to={`/brand/${brand.slug}`} className="brand-card">
-              <img src={brand.logo} alt={brand.name} />
-              <strong>{brand.name}</strong>
-              <small>{brand.country}</small>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block">
-        <h2>Appliances</h2>
-        <div className="cards-grid">
-          {products.slice(0, 2).map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block">
-        <h2>AC</h2>
-        <div className="cards-grid">
-          {products.filter((p) => p.categoryId === 'ac').map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block">
-        <h2>Offers</h2>
-        <div className="cards-grid">
-          {offers.map((offer) => (
-            <div key={offer.id} className="offer-card">
-              <h3>{offer.title}</h3>
-              <p>{offer.description}</p>
-              <small>{offer.status}</small>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block">
-        <h2>News</h2>
-        <div className="cards-grid">
-          {news.map((item) => (
-            <article key={item.id} className="news-card">
-              <h3>{item.title}</h3>
-              <p>{item.summary}</p>
-              <small>{item.source}</small>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block">
-        <h2>Tips</h2>
-        <div className="cards-grid">
-          {tips.map((tip) => (
-            <article key={tip.id} className="news-card">
-              <h3>{tip.title}</h3>
-              <p>{tip.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block">
-        <h2>Competitions</h2>
-        <div className="cards-grid">
-          {competitions.map((entry) => (
-            <div key={entry.id} className="feature-card">
-              <strong>{entry.title}</strong>
-              <p>{entry.conditions}</p>
-              <small>{entry.prize}</small>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block">
-        <h2>Academy</h2>
-        <div className="cards-grid">
-          {academyItems.map((item) => (
-            <div key={item.id} className="feature-card">
-              <strong>{item.title}</strong>
-              <p>{item.summary}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-    </div>
-  );
+ const verifiedProducts=products.filter(p=>p.verificationStatus==="Verified"&&p.published);
+ const verifiedBrands=brands.filter(b=>b.sourceStatus==="Verified");
+ return <div className="container page-block home-page">
+  <section className="hero-card"><div className="hero-copy"><span className="eyebrow">AL HAZEM SMART · الحازم جروب</span><h1>قبل ما تشتري… <span>اسأل الحازم</span></h1><p>مش مجرد مكان لعرض المنتجات؛ دي مساحة تساعدك تفهم احتياجك، تعرف الفرق بين الاختيارات، وتقارن على أساس معلومات واضحة قبل ما تاخد قرار الشراء.</p><div className="actions"><Link to="/smart-advisor" className="primary-button">ابدأ استشارة ذكية</Link><Link to="/compare" className="secondary-button">قارن بين المنتجات</Link></div><div className="hero-note">الثقة أولًا · المعرفة قبل الشراء · لا أسعار أو ادعاءات بلا تحقق</div></div>
+   <div className="hero-panel hero-promise"><div className="promise-mark">ح</div><strong>قرارك يستحق معلومة موثوقة</strong><p>نوضح مصدر المعلومة وحالة التحقق، ونقول «غير متاح» بدل ما نخمن.</p><div className="promise-line"><span>01</span> افهم احتياجك</div><div className="promise-line"><span>02</span> اعرف اختياراتك</div><div className="promise-line"><span>03</span> قارن بثقة</div></div></section>
+  <section className="section-block"><div className="section-heading"><div><span className="section-kicker">ابدأ من سؤالك</span><h2>بتدور على إيه؟</h2></div><Link to="/smart-search" className="text-link">البحث المتقدم ←</Link></div><div className="search-box"><Link to="/smart-search" className="search-entry">ابحث عن جهاز أو ماركة أو موديل...</Link><Link to="/smart-search" className="primary-button">ابدأ البحث</Link></div></section>
+  <section className="section-block"><div className="section-heading"><div><span className="section-kicker">تخصصات الحازم</span><h2>كل قسم له احتياجه</h2></div></div><div className="category-showcase">
+   <Link to="/catalog-center" className="category-tile category-active"><span>🏠</span><strong>الأجهزة الكهربائية</strong><small>استكشف الكتالوج المتاح</small></Link><Link to="/ac" className="category-tile category-active"><span>❄️</span><strong>التكييفات</strong><small>معلومات ومقارنة الأجهزة</small></Link><Link to="/catalog-center" className="category-tile category-active"><span>🍳</span><strong>أجهزة المطبخ</strong><small>ضمن الكتالوج الحالي</small></Link><div className="category-tile category-pending"><span>🍽️</span><strong>الأدوات المنزلية</strong><small>المحتوى قيد التجهيز والتحقق</small></div><div className="category-tile category-pending"><span>💡</span><strong>النجف والإضاءة</strong><small>المحتوى قيد التجهيز والتحقق</small></div><div className="category-tile category-pending"><span>🏺</span><strong>التحف</strong><small>المحتوى قيد التجهيز والتحقق</small></div>
+  </div></section>
+  <section className="section-block"><div className="section-heading"><div><span className="section-kicker">منهج الحازم</span><h2>معلومة واضحة قبل أي ترشيح</h2></div><Link to="/transparency" className="text-link">اعرف منهجية التحقق ←</Link></div><div className="feature-grid"><article className="feature-card"><span className="feature-symbol">✓</span><strong>مصدر المعلومة</strong><p>نعرض المصدر وحالة التحقق، ولا نخلط بيانات التجربة بالمعلومات المعتمدة.</p></article><article className="feature-card"><span className="feature-symbol">⚖</span><strong>مقارنة موضوعية</strong><p>نقارن المواصفات المتاحة، ونوضح العناصر الناقصة بدل استكمالها بالتخمين.</p></article><article className="feature-card"><span className="feature-symbol">♧</span><strong>اختيار يناسبك</strong><p>نبدأ من احتياجك وميزانيتك وظروف الاستخدام، لا من دفع منتج بعينه.</p></article></div></section>
+  <section className="section-block"><div className="section-heading"><div><span className="section-kicker">اختياراتك</span><h2>منتجات في الكتالوج</h2></div><Link to="/catalog-center" className="text-link">عرض الكتالوج ←</Link></div><div className="cards-grid">{products.map(p=><ProductCard key={p.id} product={p}/>)}</div>{!verifiedProducts.length&&<p className="data-notice">تنبيه: لا توجد حاليًا منتجات اجتازت حالة التحقق؛ البيانات الظاهرة للتعريف ببنية الكتالوج فقط وليست توصية شراء موثقة.</p>}</section>
+  <section className="section-block"><div className="section-heading"><div><span className="section-kicker">الماركات</span><h2>تعرّف على الشركات</h2></div><Link to="/brands" className="text-link">كل الماركات ←</Link></div><div className="brand-grid">{brands.map(b=><Link key={b.id} to={"/brand/"+b.slug} className="brand-card"><img src={b.logo} alt={b.name}/><strong>{b.name}</strong><small>{b.country}</small><span className="brand-status">{b.sourceStatus==="Verified"?"بيانات تعريفية متحققة":"تحتاج مراجعة إضافية"}</span></Link>)}</div>{!verifiedBrands.length&&<p className="data-notice">لا توجد ماركات بحالة تحقق معتمدة حاليًا.</p>}</section>
+  <section className="section-block advisor-banner"><div><span className="section-kicker">محتاج مساعدة؟</span><h2>خلّي احتياجك هو اللي يحدد الاختيار</h2><p>استخدم المستشار الذكي لتكوين بصمة احتياج أولية، ثم راجع البيانات المتاحة قبل اتخاذ القرار.</p></div><Link to="/smart-advisor" className="primary-button">افتح المستشار الذكي</Link></section>
+  <section className="section-block"><div className="section-heading"><div><span className="section-kicker">المعرفة قبل الشراء</span><h2>أكاديمية الحازم</h2></div><Link to="/academy" className="text-link">زيارة الأكاديمية ←</Link></div><div className="feature-grid">{academyItems.map(item=><article key={item.id} className="feature-card"><span className="unverified-label">محتوى يحتاج مراجعة</span><strong>{item.title}</strong><p>{item.summary}</p></article>)}</div></section>
+  <section className="section-block future-strip"><span>قريبًا ضمن خارطة التطوير</span><p>مطبخ ذكي · واقع معزز · مجتمع الحازم · مركز المناسبات · تطبيق الهاتف</p><small>هذه أفكار مستقبلية وليست خدمات متاحة حاليًا.</small></section>
+ </div>;
 }
+
+function AcademyPage() { return <div className="container page-block"><span className="section-kicker">المعرفة قبل الشراء</span><h1>أكاديمية الحازم</h1><p className="page-intro">محتوى يساعدك تفهم مواصفات الأجهزة وطرق الاختيار وترشيد الاستهلاك.</p><div className="cards-grid">{academyItems.map(item=><article key={item.id} className="feature-card"><span className="unverified-label">مسودة — تحتاج مراجعة المصدر قبل النشر</span><h3>{item.title}</h3><p>{item.summary}</p></article>)}</div><p className="data-notice">لن يُنشر محتوى تعليمي باعتباره معلومة موثقة قبل مراجعة مصدره وتاريخ صلاحيته.</p></div>; }
+function OffersPage() { return <div className="container page-block"><span className="section-kicker">عروض بشفافية</span><h1>عروض الحازم</h1><div className="empty-state"><strong>لا توجد عروض مؤكدة منشورة حاليًا.</strong><p>لن نعرض خصمًا أو موعدًا أو سعرًا ترويجيًا إلا بعد تأكيد تفاصيله وصلاحيته ومصدره.</p></div></div>; }
+function TransparencyPage() { return <div className="container page-block"><span className="section-kicker">الثقة أولًا</span><h1>منهجية التحقق والشفافية</h1><div className="feature-grid"><article className="feature-card"><strong>الأسعار</strong><p>لا يظهر السعر كقيمة معتمدة إلا إذا كان موثق المصدر وحديثًا وصالحًا للعرض.</p></article><article className="feature-card"><strong>المواصفات</strong><p>نميز بين بيانات الشركة المصنعة والبيانات السوقية والتجريبية.</p></article><article className="feature-card"><strong>الماركات والموردون</strong><p>لا نستخدم وصف «معتمد» أو «شريك رسمي» دون مستند صالح للتحقق.</p></article></div><p className="data-notice">قد تظهر بعض السجلات في الكتالوج بحالة «غير متحقق» لأغراض المراجعة، ولا تعني اعتمادها كتوصية شراء.</p></div>; }
+function SupportPage() { return <div className="container page-block"><span className="section-kicker">نحن هنا للمساعدة</span><h1>خدمة عملاء الحازم</h1><div className="empty-state"><strong>اطلب استشارة قبل الشراء</strong><p>جهّز نوع الجهاز واحتياجك والميزانية التقريبية، وابدأ بتحديد احتياجك قبل التواصل.</p><Link to="/smart-advisor" className="primary-button">ابدأ بتحديد احتياجك</Link></div></div>; }
+function SuppliersPage() { return <div className="container page-block"><span className="section-kicker">شراكات موثوقة</span><h1>معلومات الموردين</h1><div className="empty-state"><strong>لا توجد بيانات موردين معتمدة للنشر حاليًا.</strong><p>لن ننشر بيانات اتصال أو صفة اعتماد لمورد قبل التحقق من هويته وموافقته وصحة بياناته.</p></div></div>; }
 
 function NeedAssessmentPage() {
   const [state, setState] = useState({ room: 'غرفة نوم', people: 3, need: 'تبريد', budget: 20000 });
@@ -503,6 +343,11 @@ function App() {
         <Route path="/brand/:slug" element={<BrandDetailPage />} />
         <Route path="/catalog-center" element={<CatalogCenterPage />} />
         <Route path="/ac" element={<ACPage />} />
+        <Route path="/academy" element={<AcademyPage />} />
+        <Route path="/offers" element={<OffersPage />} />
+        <Route path="/transparency" element={<TransparencyPage />} />
+        <Route path="/support" element={<SupportPage />} />
+        <Route path="/suppliers" element={<SuppliersPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
