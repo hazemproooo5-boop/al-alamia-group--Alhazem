@@ -260,7 +260,8 @@ function AdminPage() {
 
   return (
     <div className="container page-block">
-      <h1>Admin Dashboard</h1>
+      <h1>معاينة جودة بيانات الكتالوج</h1>
+      <p className="data-notice" role="alert">تنبيه أمان: هذه معاينة محلية لبيانات تجريبية فقط. لا توجد مصادقة أو صلاحيات خادمية على هذا المسار في إصدار Vite الحالي؛ لا تستخدمه لإدارة بيانات حقيقية أو تعرضه كلوحة إدارة محمية.</p>
       <div className="cards-grid">
         <div className="feature-card"><strong>Missing Images</strong><p>{summary.missingImages}</p></div>
         <div className="feature-card"><strong>Missing Sources</strong><p>{summary.missingSources}</p></div>
