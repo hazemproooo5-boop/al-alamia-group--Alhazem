@@ -41,7 +41,7 @@ function ProductCard({ product }: { product: Product }) {
     <article className="product-card">
       <img src={product.imageUrl} alt={product.name} className="product-image" />
       <div className="product-body">
-        <span className="badge">{product.verificationStatus}</span>
+        <span className="badge">{product.verificationStatus === "Verified" ? "تم التحقق" : "غير متحقق"}</span>
         <h3>{product.name}</h3>
         <p>{product.description}</p>
         <div className="meta-row">
