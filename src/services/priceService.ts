@@ -3,7 +3,17 @@ import { prices } from '../data/seed';
 
 export const priceService = {
   getLatest: (productId: string): PriceRecord | undefined => {
-    const list = prices.filter((price) => price.productId === productId);
-    return list.sort((a, b) => new Date(b.priceDate).getTime() - new Date(a.priceDate).getTime())[0];
+    const now = Date.now();
+    const list = prices
+      .filter((price) => {
+        const ageInDays = (now - new Date(price.priceDate).getTime()) / (1000 * 60 * 60 * 24);
+        return price.productId === productId
+          && price.verificationStatus === 'Verified'
+          && Number.isFinite(ageInDays)
+          && ageInDays >= 0
+          && ageInDays <= 30;
+      })
+      .sort((a, b) => new Date(b.priceDate).getTime() - new Date(a.priceDate).getTime());
+    return list[0];
   },
 };
