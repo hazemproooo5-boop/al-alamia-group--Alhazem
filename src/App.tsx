@@ -127,8 +127,8 @@ function HomePage() {
             <span>منتجات مدرجة في البيانات الحالية</span>
           </div>
           <div className="mini-stat">
-            <strong>24/7</strong>
-            <span>استشارة</span>
+            <strong>استشارة</strong>
+            <span>تواصل مع فريق الحازم</span>
           </div>
         </div>
       </section>
