@@ -50,7 +50,7 @@ function ProductCard({ product }: { product: Product }) {
         </div>
         <div className="meta-row">
           <strong>المصدر:</strong>
-          <span>{product.sourceType}</span>
+          <span>{product.sourceType === "Official" ? "مصدر رسمي مسجل" : product.sourceType === "Trusted Market" ? "مصدر سوقي موثق" : "مصدر سوقي غير متحقق"}</span>
         </div>
         <div className="card-actions">
           <Link to={`/product/${product.slug}`} className="primary-button small">التفاصيل</Link>
@@ -165,7 +165,6 @@ function ComparePage() {
   const productB = products.find((item) => item.id === right);
   const priceA = productA ? priceService.getLatest(productA.id) : undefined;
   const priceB = productB ? priceService.getLatest(productB.id) : undefined;
-  const value = (product: Product | undefined, key: string) => product?.specifications[key] || 'غير متوفر في المصدر الموثق';
 
   return (
     <div className="container page-block">
@@ -224,7 +223,7 @@ function SmartAdvisorPage() {
 
 function BrandsPage() {
   return <div className="container page-block"><span className="section-kicker">دليل الماركات</span><h1>مركز الماركات</h1><p className="page-intro">صفحات تعريفية للماركات المسجلة حاليًا. الظهور في الدليل لا يعني وجود اعتماد تجاري أو شراكة رسمية.</p>
-    <div className="brand-grid">{brands.map((brand) => <Link to={"/brand/"+brand.slug} key={brand.id} className="brand-card"><img src={brand.logo} alt={"شعار "+brand.name}/><strong>{brand.name}</strong><small>بلد المنشأ المسجل: {brand.country}</small><span className="brand-status">مصدر التعريف: الموقع الرسمي للماركة — راجع التفاصيل</span></Link>)}</div>
+    <div className="brand-grid">{brands.map((brand) => <Link to={"/brand/"+brand.slug} key={brand.id} className="brand-card"><img src={brand.logo} alt={"شعار "+brand.name}/><strong>{brand.name}</strong><small>بلد المنشأ المسجل: {brand.country} — يحتاج إلى مراجعة المصدر</small><span className="brand-status">مصدر التعريف: الموقع الرسمي للماركة — راجع التفاصيل</span></Link>)}</div>
     <p className="data-notice">هذا الدليل لا يدّعي حصر جميع الماركات العاملة في مصر. تتم إضافة الماركات تدريجيًا بعد مراجعة مصادرها.</p>
   </div>;
 }
@@ -235,7 +234,7 @@ function BrandDetailPage() {
   if (!brand) return <NotFoundPage />;
   const brandProducts = products.filter((product) => product.brandId === brand.id);
   return <div className="container page-block"><span className="section-kicker">ملف الماركة</span><h1>{brand.name}</h1><p>{brand.description}</p>
-    <div className="feature-grid"><article className="feature-card"><strong>بلد المنشأ المسجل</strong><p>{brand.country}</p></article><article className="feature-card"><strong>التقنية المذكورة في السجل</strong><p>{brand.technology || 'غير متوفر'}</p></article><article className="feature-card"><strong>الموقع الرسمي</strong><p><a href={brand.officialUrl} target="_blank" rel="noreferrer">زيارة الموقع الرسمي للماركة</a></p></article></div>
+    <div className="feature-grid"><article className="feature-card"><strong>بلد المنشأ المسجل</strong><p>{brand.country}</p></article><article className="feature-card"><strong>التقنية المذكورة في السجل</strong><p>{brand.technology || 'غير متوفر'}</p></article><article className="feature-card"><strong>الموقع الرسمي</strong><p>{brand.officialUrl || "غير متوفر"}</p></article></div>
     <h2>منتجات مرتبطة في الكتالوج</h2>{brandProducts.length ? <div className="cards-grid">{brandProducts.map((product)=><ProductCard key={product.id} product={product}/>)}</div> : <div className="empty-state">لا توجد منتجات مرتبطة بهذه الماركة في الكتالوج الحالي.</div>}
     <p className="data-notice">هذه صفحة معلومات مستقلة وليست إثباتًا لاعتماد الحازم كموزع أو وكيل رسمي.</p>
   </div>;
