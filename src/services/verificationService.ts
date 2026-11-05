@@ -9,7 +9,7 @@ export const verificationService = {
       missingWarranty: products.filter((product) => !product.warranty).length,
       stalePrices: prices.filter((price) => {
         const ageInDays = (Date.now() - new Date(price.priceDate).getTime()) / (1000 * 60 * 60 * 24);
-        return !Number.isFinite(ageInDays) || ageInDays > 30 || price.verificationStatus !== 'Verified';
+        return !Number.isFinite(ageInDays) || ageInDays < 0 || ageInDays > 30 || price.verificationStatus !== 'Verified';
       }).length,
     },
   }),
