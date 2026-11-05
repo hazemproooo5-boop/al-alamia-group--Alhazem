@@ -86,9 +86,10 @@ function ProductCard({ product }: { product: Product }) {
         <h3>{product.name}</h3>
         <p>{product.description}</p>
         <div className="meta-row">
-          <strong>السعر:</strong>
-          <span>{latestPrice ? `${latestPrice.price.toLocaleString()} جنيه` : 'غير متوفر في المصدر الموثق'}</span>
+          <strong>السعر المرجعي:</strong>
+          <span>{latestPrice ? `${latestPrice.price.toLocaleString()} جنيه — مسجل بتاريخ ${latestPrice.priceDate}` : 'غير متوفر في المصدر الموثق'}</span>
         </div>
+        {latestPrice && <small className="price-disclaimer">بيانات سعرية محلية أولية وليست عرض سعر حالياً؛ يرجى التأكد من السعر والتوفر قبل الشراء.</small>}
         <div className="meta-row">
           <strong>المصدر:</strong>
           <span>{product.sourceType}</span>
@@ -122,8 +123,8 @@ function HomePage() {
             <span>ماركات مدرجة في البيانات الحالية</span>
           </div>
           <div className="mini-stat">
-            <strong>3</strong>
-            <span>منتجات موثقة</span>
+            <strong>{products.length}</strong>
+            <span>منتجات مدرجة في البيانات الحالية</span>
           </div>
           <div className="mini-stat">
             <strong>24/7</strong>
@@ -312,7 +313,8 @@ function ProductDetailPage() {
         <p>{product.description}</p>
         <ul className="detail-list">
           <li>الموديل: {product.model}</li>
-          <li>السعر: {latestPrice ? `${latestPrice.price.toLocaleString()} جنيه` : 'غير متوفر في المصدر الموثق'}</li>
+          <li>السعر المرجعي: {latestPrice ? `${latestPrice.price.toLocaleString()} جنيه (مسجل بتاريخ ${latestPrice.priceDate})` : 'غير متوفر في المصدر الموثق'}</li>
+          {latestPrice && <li>تنبيه: السعر من بيانات محلية أولية وليس عرضاً حالياً؛ يرجى التأكد منه قبل الشراء.</li>}
           <li>الضمان: {product.warranty ?? 'غير متوفر في المصدر الموثق'}</li>
           <li>المصدر: {product.sourceUrl}</li>
         </ul>
@@ -351,8 +353,8 @@ function ComparePage() {
         <tbody>
           <tr>
             <td>Price</td>
-            <td>{productA ? (priceService.getLatest(productA.id)?.price ? `${priceService.getLatest(productA.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
-            <td>{productB ? (priceService.getLatest(productB.id)?.price ? `${priceService.getLatest(productB.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
+            <td>{productA && priceService.getLatest(productA.id) ? `${priceService.getLatest(productA.id)!.price.toLocaleString()} جنيه — ${priceService.getLatest(productA.id)!.priceDate}` : 'غير متوفر'}</td>
+            <td>{productB && priceService.getLatest(productB.id) ? `${priceService.getLatest(productB.id)!.price.toLocaleString()} جنيه — ${priceService.getLatest(productB.id)!.priceDate}` : 'غير متوفر'}</td>
           </tr>
           <tr>
             <td>Energy Consumption</td>
