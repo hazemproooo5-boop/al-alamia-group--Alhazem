@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: ["111111"]
 
+# Serialize verification runs so push and pull_request events do not
+# compete for the same verification slot.
+concurrency:
+  group: alhazem-verify
+  cancel-in-progress: false
+
 permissions:
   contents: read
 
