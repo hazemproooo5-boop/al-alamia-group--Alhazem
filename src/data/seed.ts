@@ -113,7 +113,7 @@ export const products: Product[] = [
     capacity: '1.5 طن',
     energyInformation: 'EER: 3.4',
     warranty: 'ضمان 2 سنة على الوحدة الداخلية والخارجية',
-    availability: 'متوفر',
+    availability: 'غير متحقق',
     officialProductUrl: 'https://www.aux.com',
     sourceUrl: 'https://www.aux.com',
     sourceType: 'Unverified Market',
@@ -173,7 +173,7 @@ export const products: Product[] = [
     },
     capacity: '71 لتر',
     warranty: 'ضمان سنة + خدمة',
-    availability: 'لهذا الأسبوع',
+    availability: 'غير متحقق',
     officialProductUrl: 'https://www.bosch-home.com',
     sourceUrl: 'https://www.bosch-home.com',
     sourceType: 'Unverified Market',
@@ -270,15 +270,15 @@ export const suppliers: Supplier[] = [
     name: 'مصدر HVAC',
     category: 'AC',
     status: 'Unverified',
-    phone: '01000000000',
-    email: 'supplier@example.com',
+    phone: '',
+    email: '',
     verified: false,
     createdAt: '2026-05-15T00:00:00Z',
   },
 ];
 
 export const offers = [
-  { id: 'o-1', title: 'خصم الصيف على مكيفات AUX', description: 'خصم حتى 12% على وحدات 1.5-2 طن', status: 'Active' },
+  { id: 'o-1', title: 'خصم الصيف على مكيفات AUX', description: 'خصم حتى 12% على وحدات 1.5-2 طن', status: 'غير متحقق' },
   { id: 'o-2', title: 'عرض تجهيز مطبخ', description: 'خصم على الثلاجات والغسالات مع تركيب', status: 'Active' },
 ];
 
@@ -288,7 +288,7 @@ export const academyItems = [
 ];
 
 export const competitions = [
-  { id: 'c-1', title: 'مسابقة العائلة الذكية', conditions: 'مشاركة عبر تسجيل الدخول والاشتراك', prize: 'مكافأة نقدية + أجهزة', deadline: '2026-06-30' },
+  { id: 'c-1', title: 'مسابقة العائلة الذكية', conditions: 'مشاركة عبر تسجيل الدخول والاشتراك', prize: 'مكافأة نقدية + أجهزة', deadline: '2026-06-30', status: 'منتهية' },
 ];
 
 export const auditLog = [
