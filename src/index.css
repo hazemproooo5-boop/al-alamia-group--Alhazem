@@ -492,3 +492,22 @@ body, button, input, select { font-family: "Tajawal", "Cairo", sans-serif; }
  .actions > a { width: 100%; }
  .compare-controls { grid-template-columns: 1fr; }
 }
+
+
+/* Customer journey and comparison safeguards */
+.panel-form label, .compare-controls label { display: grid; gap: 8px; color: var(--navy); font-weight: 700; }
+.panel-form input:focus, .panel-form select:focus, .compare-controls select:focus, .search-box input:focus {
+ outline: 2px solid rgba(199,149,41,.55); outline-offset: 1px; border-color: var(--gold);
+}
+.table-scroll { width: 100%; overflow-x: auto; border-radius: 18px; }
+.table-scroll .compare-table { min-width: 620px; }
+.compare-table th { background: #f3efe5; color: var(--navy); }
+.compare-table td { line-height: 1.7; vertical-align: top; }
+.result-box small { display: block; margin-top: 10px; color: var(--muted); line-height: 1.7; }
+.product-detail .data-notice { max-width: 680px; }
+.empty-state strong { color: var(--navy); }
+a:focus-visible, button:focus-visible { outline: 3px solid #c79529; outline-offset: 3px; }
+@media (max-width: 760px) {
+ .table-scroll { margin-inline: -2px; width: calc(100% + 4px); }
+ .panel-form { grid-template-columns: 1fr; }
+}
