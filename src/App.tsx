@@ -480,6 +480,119 @@ function AdminPage() {
   );
 }
 
+function OffersPage() {
+  return (
+    <div className="container page-block">
+      <h1>العروض</h1>
+      <div className="cards-grid">
+        {offers.map((offer) => (
+          <article key={offer.id} className="offer-card">
+            <h2>{offer.title}</h2>
+            <p>{offer.description}</p>
+            <small>{offer.status === 'Active' ? 'عرض مسجل في البيانات المحلية' : offer.status}</small>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AcademyPage() {
+  return (
+    <div className="container page-block">
+      <h1>أكاديمية الحازم</h1>
+      <p>محتوى إرشادي أولي لمساعدتك على فهم احتياجك قبل الشراء.</p>
+      <div className="cards-grid">
+        {academyItems.map((item) => (
+          <article key={item.id} className="feature-card">
+            <h2>{item.title}</h2>
+            <p>{item.summary}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TransparencyPage() {
+  return (
+    <div className="container page-block">
+      <h1>مركز الشفافية</h1>
+      <p>نعرض حالة التوثيق ومصادر البيانات المتاحة، ولا نعتبر بيانات العرض المحلية بديلاً عن التحقق المستقل.</p>
+      <div className="cards-grid">
+        <article className="feature-card">
+          <strong>مصادر المنتجات</strong>
+          <p>تظهر صفحة كل منتج المصدر وحالة التحقق المسجلة له.</p>
+        </article>
+        <article className="feature-card">
+          <strong>الأسعار</strong>
+          <p>الأسعار الحالية المعروضة بيانات تجريبية محلية مؤرخة، ويجب مراجعة المصدر قبل اتخاذ قرار الشراء.</p>
+        </article>
+        <article className="feature-card">
+          <strong>سجل الأحداث</strong>
+          <p>السجل التالي بيانات أولية محلية وليس سجل تدقيق إنتاجياً متصلاً بقاعدة بيانات.</p>
+        </article>
+      </div>
+      <div className="section-block">
+        <h2>سجل الأحداث المحلي</h2>
+        <div className="cards-grid">
+          {auditLog.map((entry) => (
+            <article key={entry.id} className="news-card">
+              <strong>{entry.event}</strong>
+              <p>{entry.action} — {entry.user}</p>
+              <small>{entry.timestamp}</small>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SupportPage() {
+  return (
+    <div className="container page-block">
+      <h1>خدمة العملاء</h1>
+      <p>للاستفسار عن المنتجات أو طلب المساعدة قبل الشراء، تواصل مباشرة مع الحازم جروب.</p>
+      <div className="feature-grid">
+        <article className="feature-card">
+          <strong>الهاتف</strong>
+          <p dir="ltr">{siteSettings.phonePrimary}</p>
+          <a className="primary-button small" href={`tel:${siteSettings.phonePrimary}`}>اتصل الآن</a>
+        </article>
+        <article className="feature-card">
+          <strong>واتساب</strong>
+          <p dir="ltr">{siteSettings.phoneWhatsApp}</p>
+          <a className="primary-button small" href={siteSettings.socialLinks.whatsapp} target="_blank" rel="noreferrer">تواصل عبر واتساب</a>
+        </article>
+        <article className="feature-card">
+          <strong>العنوان</strong>
+          <p>{siteSettings.address}</p>
+        </article>
+      </div>
+    </div>
+  );
+}
+
+function SuppliersPage() {
+  return (
+    <div className="container page-block">
+      <h1>الموردون</h1>
+      <p>بيانات الموردين المعروضة هنا أولية ومحلية، ولا تعني اعتماد المورد أو إتاحة التعامل معه قبل مراجعة الإدارة.</p>
+      <div className="cards-grid">
+        {suppliers.map((supplier) => (
+          <article key={supplier.id} className="feature-card">
+            <h2>{supplier.name}</h2>
+            <p>الفئة: {supplier.category}</p>
+            <p>الحالة المسجلة: {supplier.status}</p>
+            <small>{supplier.verified ? 'يتضمن السجل علامة تحقق أولية' : 'لم يتم توثيقه'}</small>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function NotFoundPage() {
   return (
     <div className="container page-block">
@@ -504,6 +617,11 @@ function App() {
         <Route path="/catalog-center" element={<CatalogCenterPage />} />
         <Route path="/ac" element={<ACPage />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/offers" element={<OffersPage />} />
+        <Route path="/academy" element={<AcademyPage />} />
+        <Route path="/transparency" element={<TransparencyPage />} />
+        <Route path="/support" element={<SupportPage />} />
+        <Route path="/suppliers" element={<SuppliersPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Layout>
