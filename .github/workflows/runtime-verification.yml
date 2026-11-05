@@ -1,0 +1,31 @@
+name: Runtime verification
+
+on:
+  push:
+    branches:
+      - "fix/vite-runtime-bootstrap-2026-11-05"
+  pull_request:
+    branches:
+      - "111111"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: TypeScript check
+        run: npm run typecheck
+      - name: Production build
+        run: npm run build
