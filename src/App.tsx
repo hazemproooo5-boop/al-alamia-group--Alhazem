@@ -118,8 +118,8 @@ function HomePage() {
 
         <div className="hero-panel">
           <div className="mini-stat">
-            <strong>12+</strong>
-            <span>ماركات مدرجة</span>
+            <strong>{brands.length}</strong>
+            <span>ماركات مدرجة في البيانات الحالية</span>
           </div>
           <div className="mini-stat">
             <strong>3</strong>
@@ -299,7 +299,8 @@ function SmartSearchPage() {
 
 function ProductDetailPage() {
   const { slug } = useParams();
-  const product = products.find((item) => item.slug === slug) ?? products[0];
+  const product = products.find((item) => item.slug === slug);
+  if (!product) return <NotFoundPage />;
   const latestPrice = priceService.getLatest(product.id);
 
   return (
@@ -425,7 +426,8 @@ function BrandsPage() {
 
 function BrandDetailPage() {
   const { slug } = useParams();
-  const brand = brands.find((item) => item.slug === slug) ?? brands[0];
+  const brand = brands.find((item) => item.slug === slug);
+  if (!brand) return <NotFoundPage />;
 
   return (
     <div className="container page-block">
