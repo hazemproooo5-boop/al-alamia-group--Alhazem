@@ -144,7 +144,7 @@ export const products: Product[] = [
     capacity: '9 كجم',
     energyInformation: 'A+++ / 54 kWh/yr',
     warranty: 'ضمان 24 شهر',
-    availability: 'متوفر',
+    availability: 'غير متحقق',
     officialProductUrl: 'https://www.samsung.com',
     sourceUrl: 'https://www.samsung.com',
     sourceType: 'Unverified Market',
@@ -279,7 +279,7 @@ export const suppliers: Supplier[] = [
 
 export const offers = [
   { id: 'o-1', title: 'خصم الصيف على مكيفات AUX', description: 'خصم حتى 12% على وحدات 1.5-2 طن', status: 'غير متحقق' },
-  { id: 'o-2', title: 'عرض تجهيز مطبخ', description: 'خصم على الثلاجات والغسالات مع تركيب', status: 'Active' },
+  { id: 'o-2', title: 'عرض تجهيز مطبخ', description: 'خصم على الثلاجات والغسالات مع تركيب', status: 'غير متحقق' },
 ];
 
 export const academyItems = [
