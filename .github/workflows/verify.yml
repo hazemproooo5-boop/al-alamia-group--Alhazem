@@ -1,0 +1,33 @@
+name: Verify AlHazem
+
+on:
+  push:
+    branches: ["111111", "fix/runtime-verification-2026-11-05"]
+  pull_request:
+    branches: ["111111"]
+
+# Serialize verification runs so push and pull_request events do not
+# compete for the same verification slot.
+concurrency:
+  group: alhazem-verify
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Type check
+        run: npm run lint
+      - name: Build Next.js application
+        run: npm run build
