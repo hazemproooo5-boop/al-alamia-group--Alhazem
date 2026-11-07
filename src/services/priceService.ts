@@ -12,7 +12,7 @@ export const priceService = {
   // A historical record must not be presented as a current selling price.
   getCurrent: (productId: string, maxAgeDays = PRICE_MAX_AGE_DAYS): PriceRecord | undefined => {
     const latest = priceService.getLatest(productId);
-    if (!latest) return undefined;
+    if (!latest || latest.isHistorical || latest.verificationStatus !== 'Verified') return undefined;
 
     const priceTimestamp = new Date(latest.priceDate).getTime();
     if (!Number.isFinite(priceTimestamp)) return undefined;
