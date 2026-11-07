@@ -360,9 +360,9 @@ function ComparePage() {
         </thead>
         <tbody>
           <tr>
-            <td>السعر الحديث المسجل</td>
-            <td>{productA ? (priceService.getCurrent(productA.id)?.price ? `${priceService.getCurrent(productA.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
-            <td>{productB ? (priceService.getCurrent(productB.id)?.price ? `${priceService.getCurrent(productB.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
+            <td>السعر المرجعي الموثق وتاريخ التسجيل</td>
+            <td>{productA ? (priceService.getCurrent(productA.id) ? `${priceService.getCurrent(productA.id)!.price.toLocaleString()} جنيه — ${priceService.getCurrent(productA.id)!.priceDate}` : 'لا يوجد سعر حديث موثق بالكامل') : 'لا يوجد سعر حديث موثق بالكامل'}</td>
+            <td>{productB ? (priceService.getCurrent(productB.id) ? `${priceService.getCurrent(productB.id)!.price.toLocaleString()} جنيه — ${priceService.getCurrent(productB.id)!.priceDate}` : 'لا يوجد سعر حديث موثق بالكامل') : 'لا يوجد سعر حديث موثق بالكامل'}</td>
           </tr>
           <tr>
             <td>استهلاك الطاقة</td>
