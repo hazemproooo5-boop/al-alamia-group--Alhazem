@@ -335,7 +335,7 @@ function ComparePage() {
 
   return (
     <div className="container page-block">
-      <h1>Compare</h1>
+      <h1>مقارنة المنتجات</h1>
       <div className="compare-controls">
         <select value={left} onChange={(e) => setLeft(e.target.value)}>
           {products.map((product) => <option key={product.id} value={product.id}>{product.name}</option>)}
@@ -355,17 +355,17 @@ function ComparePage() {
         </thead>
         <tbody>
           <tr>
-            <td>Price</td>
+            <td>السعر الحديث المسجل</td>
             <td>{productA ? (priceService.getCurrent(productA.id)?.price ? `${priceService.getCurrent(productA.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
             <td>{productB ? (priceService.getCurrent(productB.id)?.price ? `${priceService.getCurrent(productB.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
           </tr>
           <tr>
-            <td>Energy Consumption</td>
+            <td>استهلاك الطاقة</td>
             <td>{productA?.energyInformation ?? 'غير متوفر في المصدر الموثق'}</td>
             <td>{productB?.energyInformation ?? 'غير متوفر في المصدر الموثق'}</td>
           </tr>
           <tr>
-            <td>Warranty</td>
+            <td>الضمان</td>
             <td>{productA?.warranty ?? 'غير متوفر في المصدر الموثق'}</td>
             <td>{productB?.warranty ?? 'غير متوفر في المصدر الموثق'}</td>
           </tr>
@@ -381,7 +381,7 @@ function SmartAdvisorPage() {
 
   return (
     <div className="container page-block">
-      <h1>Smart Advisor</h1>
+      <h1>المستشار الذكي</h1>
       <div className="panel-form">
         <label>
           الفئة
@@ -405,9 +405,17 @@ function SmartAdvisorPage() {
         </ul>
       </div>
 
-      <div className="cards-grid">
-        {recommendations.map((product) => <ProductCard key={product.id} product={product} />)}
-      </div>
+      {recommendations.length === 0 ? (
+        <div className="result-box" role="status">
+          <strong>لا توجد مطابقة بسعر حديث موثق ضمن هذه الميزانية حالياً.</strong>
+          <p>هذا لا يعني عدم توفر المنتج في المعرض؛ تواصل مع خدمة العملاء للحصول على سعر محدث قبل اتخاذ قرار الشراء.</p>
+          <Link to="/support" className="primary-button small">تواصل مع الحازم</Link>
+        </div>
+      ) : (
+        <div className="cards-grid">
+          {recommendations.map((product) => <ProductCard key={product.id} product={product} />)}
+        </div>
+      )}
     </div>
   );
 }
@@ -415,7 +423,7 @@ function SmartAdvisorPage() {
 function BrandsPage() {
   return (
     <div className="container page-block">
-      <h1>Brands</h1>
+      <h1>مركز الماركات</h1>
       <div className="brand-grid">
         {brands.map((brand) => (
           <Link to={`/brand/${brand.slug}`} key={brand.id} className="brand-card">
@@ -452,7 +460,7 @@ function BrandDetailPage() {
 function CatalogCenterPage() {
   return (
     <div className="container page-block">
-      <h1>Catalog Center</h1>
+      <h1>كتالوج المنتجات</h1>
       <div className="cards-grid">
         {products.map((product) => <ProductCard key={product.id} product={product} />)}
       </div>
@@ -463,7 +471,7 @@ function CatalogCenterPage() {
 function ACPage() {
   return (
     <div className="container page-block">
-      <h1>AC</h1>
+      <h1>التكييف</h1>
       <div className="cards-grid">
         {products.filter((product) => product.categoryId === 'ac').map((product) => <ProductCard key={product.id} product={product} />)}
       </div>
@@ -476,7 +484,7 @@ function AdminPage() {
 
   return (
     <div className="container page-block">
-      <h1>Admin Dashboard</h1>
+      <h1>لوحة الإدارة</h1>
       <div className="cards-grid">
         <div className="feature-card"><strong>Missing Images</strong><p>{summary.missingImages}</p></div>
         <div className="feature-card"><strong>Missing Sources</strong><p>{summary.missingSources}</p></div>
