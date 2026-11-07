@@ -187,12 +187,13 @@ function HomePage() {
 
       <section className="section-block">
         <h2>العروض</h2>
+        <p>العروض المسجلة أدناه بيانات أولية؛ يرجى التأكد من سريان العرض وتفاصيله مع خدمة العملاء قبل الاعتماد عليه.</p>
         <div className="cards-grid">
           {offers.map((offer) => (
             <div key={offer.id} className="offer-card">
               <h3>{offer.title}</h3>
               <p>{offer.description}</p>
-              <small>{offer.status}</small>
+              <small>الحالة المسجلة: {offer.status} — السريان غير مؤكد</small>
             </div>
           ))}
         </div>
@@ -226,13 +227,17 @@ function HomePage() {
       <section className="section-block">
         <h2>المسابقات</h2>
         <div className="cards-grid">
-          {competitions.map((entry) => (
-            <div key={entry.id} className="feature-card">
-              <strong>{entry.title}</strong>
-              <p>{entry.conditions}</p>
-              <small>{entry.prize}</small>
-            </div>
-          ))}
+          {competitions.map((entry) => {
+            const deadlinePassed = new Date(`${entry.deadline}T23:59:59`).getTime() < Date.now();
+            return (
+              <div key={entry.id} className="feature-card">
+                <strong>{entry.title}</strong>
+                <p>{entry.conditions}</p>
+                <small>{entry.prize}</small>
+                <p>{deadlinePassed ? `انتهت المسابقة بتاريخ ${entry.deadline}` : `آخر موعد للمشاركة: ${entry.deadline}`}</p>
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -256,7 +261,7 @@ function NeedAssessmentPage() {
 
   return (
     <div className="container page-block">
-      <h1>Need Assessment</h1>
+      <h1>تقييم الاحتياج</h1>
       <form className="panel-form">
         <label>
           نوع الغرفة
@@ -499,12 +504,13 @@ function OffersPage() {
   return (
     <div className="container page-block">
       <h1>العروض</h1>
+      <p>هذه عروض مسجلة في بيانات المنصة الأولية وليست تأكيداً على استمرارها أو توفرها حالياً. يرجى التحقق من خدمة العملاء.</p>
       <div className="cards-grid">
         {offers.map((offer) => (
           <article key={offer.id} className="offer-card">
             <h2>{offer.title}</h2>
             <p>{offer.description}</p>
-            <small>{offer.status === 'Active' ? 'عرض مسجل في البيانات المحلية' : offer.status}</small>
+            <small>الحالة المسجلة: {offer.status} — السريان غير مؤكد</small>
           </article>
         ))}
       </div>
