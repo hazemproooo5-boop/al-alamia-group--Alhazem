@@ -4,8 +4,8 @@ export const siteSettings: SiteSettings = {
   brandName: 'AL HAZEM SMART',
   slogan: 'قبل ما تشتري… اسأل الحازم',
   businessName: 'الحازم جروب',
-  phonePrimary: '01050509779',
-  phoneWhatsApp: '01044111143',
+  phonePrimary: '01044111143',
+  phoneWhatsApp: '01050509779',
   address: 'سيدي غازي، كفر الشيخ، أمام موقف الميكروباص',
   colors: {
     navy: '#091329',
@@ -13,7 +13,7 @@ export const siteSettings: SiteSettings = {
     warmWhite: '#F5F4F0',
   },
   socialLinks: {
-    whatsapp: 'https://wa.me/201044111143',
+    whatsapp: 'https://wa.me/201050509779',
     facebook: '#',
     instagram: '#',
   },

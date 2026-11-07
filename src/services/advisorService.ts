@@ -8,14 +8,14 @@ export const advisorService = {
     const filtered = products.filter((product) => {
       if (!product.published) return false;
       const matchesCategory = profile.category === 'all' || product.categoryId === profile.category;
-      const latest = priceService.getLatest(product.id);
+      const latest = priceService.getCurrent(product.id);
       const withinBudget = !latest || latest.price <= budget;
       return matchesCategory && withinBudget;
     });
 
     const ordered = [...filtered].sort((a, b) => {
-      const aPrice = priceService.getLatest(a.id)?.price ?? Number.MAX_SAFE_INTEGER;
-      const bPrice = priceService.getLatest(b.id)?.price ?? Number.MAX_SAFE_INTEGER;
+      const aPrice = priceService.getCurrent(a.id)?.price ?? Number.MAX_SAFE_INTEGER;
+      const bPrice = priceService.getCurrent(b.id)?.price ?? Number.MAX_SAFE_INTEGER;
       return aPrice - bPrice;
     });
 

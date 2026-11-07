@@ -76,7 +76,7 @@ function Layout({ children }: { children: ReactNode }) {
 }
 
 function ProductCard({ product }: { product: Product }) {
-  const latestPrice = priceService.getLatest(product.id);
+  const latestPrice = priceService.getCurrent(product.id);
 
   return (
     <article className="product-card">
@@ -300,7 +300,7 @@ function SmartSearchPage() {
 function ProductDetailPage() {
   const { slug } = useParams();
   const product = products.find((item) => item.slug === slug) ?? products[0];
-  const latestPrice = priceService.getLatest(product.id);
+  const latestPrice = priceService.getCurrent(product.id);
 
   return (
     <div className="container page-block product-detail">
@@ -350,8 +350,8 @@ function ComparePage() {
         <tbody>
           <tr>
             <td>Price</td>
-            <td>{productA ? (priceService.getLatest(productA.id)?.price ? `${priceService.getLatest(productA.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
-            <td>{productB ? (priceService.getLatest(productB.id)?.price ? `${priceService.getLatest(productB.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
+            <td>{productA ? (priceService.getCurrent(productA.id)?.price ? `${priceService.getCurrent(productA.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
+            <td>{productB ? (priceService.getCurrent(productB.id)?.price ? `${priceService.getCurrent(productB.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
           </tr>
           <tr>
             <td>Energy Consumption</td>
