@@ -230,7 +230,7 @@ export const news: NewsItem[] = [
   {
     id: 'n-1',
     title: 'دليل شراء مكيفات 2026',
-    summary: 'مقارنة بين inverter وnon-inverter والت��كم الذكي.',
+    summary: 'مقارنة بين inverter وnon-inverter والتحكم الذكي.',
     source: 'Official AC Guide',
     date: '2026-05-10',
     verificationStatus: 'Verified',
