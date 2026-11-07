@@ -282,7 +282,7 @@ function NeedAssessmentPage() {
       </form>
 
       <div className="result-box">
-        <h3>Need Fingerprint</h3>
+        <h3>ملخص احتياجك</h3>
         <p>{state.room} • {state.people} أشخاص • {state.need} • {state.budget} جنيه</p>
       </div>
     </div>
@@ -295,7 +295,7 @@ function SmartSearchPage() {
 
   return (
     <div className="container page-block">
-      <h1>Smart Search</h1>
+      <h1>البحث الذكي</h1>
       <div className="search-box search-large">
         <input value={term} onChange={(e) => setTerm(e.target.value)} placeholder="ابحث عن منتج أو ماركة أو موديل" />
       </div>
@@ -322,7 +322,7 @@ function ProductDetailPage() {
         <p>{product.description}</p>
         <ul className="detail-list">
           <li>الموديل: {product.model}</li>
-          <li>السعر: {latestPrice ? `${latestPrice.price.toLocaleString()} جنيه` : 'غير متوفر في المصدر الموثق'}</li>
+          <li>السعر المرجعي: {latestPrice ? `${latestPrice.price.toLocaleString()} جنيه — مسجل بتاريخ ${latestPrice.priceDate}` : 'لا يوجد سعر حديث موثق'}</li>
           <li>الضمان: {product.warranty ?? 'غير متوفر في المصدر الموثق'}</li>
           <li>المصدر: {product.sourceUrl}</li>
         </ul>
@@ -491,10 +491,10 @@ function AdminPage() {
     <div className="container page-block">
       <h1>لوحة الإدارة</h1>
       <div className="cards-grid">
-        <div className="feature-card"><strong>Missing Images</strong><p>{summary.missingImages}</p></div>
-        <div className="feature-card"><strong>Missing Sources</strong><p>{summary.missingSources}</p></div>
-        <div className="feature-card"><strong>Missing Specs</strong><p>{summary.missingSpecs}</p></div>
-        <div className="feature-card"><strong>Stale Prices</strong><p>{summary.stalePrices}</p></div>
+        <div className="feature-card"><strong>صور غير متوفرة</strong><p>{summary.missingImages}</p></div>
+        <div className="feature-card"><strong>مصادر غير متوفرة</strong><p>{summary.missingSources}</p></div>
+        <div className="feature-card"><strong>مواصفات غير مكتملة</strong><p>{summary.missingSpecs}</p></div>
+        <div className="feature-card"><strong>أسعار قديمة</strong><p>{summary.stalePrices}</p></div>
       </div>
     </div>
   );
