@@ -270,10 +270,10 @@ export const suppliers: Supplier[] = [
     id: 'sp-1',
     name: 'مصدر HVAC',
     category: 'AC',
-    status: 'Verified',
+    status: 'Unverified',
     phone: '01000000000',
     email: 'supplier@example.com',
-    verified: true,
+    verified: false,
     createdAt: '2026-05-15T00:00:00Z',
   },
 ];
