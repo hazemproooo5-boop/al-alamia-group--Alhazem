@@ -197,7 +197,7 @@ export const prices: PriceRecord[] = [
     source: 'AUX Official Catalog',
     sourceUrl: 'https://www.aux.com',
     priceDate: '2026-05-15',
-    verificationStatus: 'Verified',
+    verificationStatus: 'Unverified',
     createdAt: '2026-05-15T00:00:00Z',
   },
   {
@@ -209,7 +209,7 @@ export const prices: PriceRecord[] = [
     source: 'AL HAZEM SMART',
     sourceUrl: 'https://alhazem.smart',
     priceDate: '2026-05-15',
-    verificationStatus: 'Verified',
+    verificationStatus: 'Unverified',
     createdAt: '2026-05-15T00:00:00Z',
   },
   {
@@ -221,7 +221,7 @@ export const prices: PriceRecord[] = [
     source: 'Trusted local market',
     sourceUrl: 'https://trusted.local',
     priceDate: '2026-05-14',
-    verificationStatus: 'Partially Verified',
+    verificationStatus: 'Unverified',
     createdAt: '2026-05-14T00:00:00Z',
   },
 ];
