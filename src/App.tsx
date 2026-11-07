@@ -360,9 +360,9 @@ function ComparePage() {
         </thead>
         <tbody>
           <tr>
-            <td>السعر الحديث المسجل</td>
-            <td>{productA ? (priceService.getCurrent(productA.id)?.price ? `${priceService.getCurrent(productA.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
-            <td>{productB ? (priceService.getCurrent(productB.id)?.price ? `${priceService.getCurrent(productB.id)!.price.toLocaleString()} جنيه` : 'غير متوفر') : 'غير متوفر'}</td>
+            <td>السعر المرجعي الموثق وتاريخ التسجيل</td>
+            <td>{productA ? (priceService.getCurrent(productA.id) ? `${priceService.getCurrent(productA.id)!.price.toLocaleString()} جنيه — ${priceService.getCurrent(productA.id)!.priceDate}` : 'لا يوجد سعر حديث موثق بالكامل') : 'لا يوجد سعر حديث موثق بالكامل'}</td>
+            <td>{productB ? (priceService.getCurrent(productB.id) ? `${priceService.getCurrent(productB.id)!.price.toLocaleString()} جنيه — ${priceService.getCurrent(productB.id)!.priceDate}` : 'لا يوجد سعر حديث موثق بالكامل') : 'لا يوجد سعر حديث موثق بالكامل'}</td>
           </tr>
           <tr>
             <td>استهلاك الطاقة</td>
@@ -489,12 +489,19 @@ function AdminPage() {
 
   return (
     <div className="container page-block">
-      <h1>لوحة الإدارة</h1>
+      <h1>معاينة جودة بيانات الكتالوج</h1>
+      <div className="result-box" role="note">
+        <strong>تنبيه أمان:</strong>
+        <p>هذه المعاينة تقرأ بيانات محلية أولية فقط. لا توجد هنا مصادقة أو صلاحيات إدارة أو اتصال بقاعدة بيانات إنتاجية؛ لذلك لا تُدخل بيانات حساسة ولا تعتبر هذه الصفحة لوحة إدارة محمية.</p>
+      </div>
       <div className="cards-grid">
         <div className="feature-card"><strong>صور غير متوفرة</strong><p>{summary.missingImages}</p></div>
         <div className="feature-card"><strong>مصادر غير متوفرة</strong><p>{summary.missingSources}</p></div>
         <div className="feature-card"><strong>مواصفات غير مكتملة</strong><p>{summary.missingSpecs}</p></div>
+        <div className="feature-card"><strong>ضمان غير متوفر</strong><p>{summary.missingWarranty}</p></div>
+        <div className="feature-card"><strong>أسعار غير مسجلة</strong><p>{summary.missingPrices}</p></div>
         <div className="feature-card"><strong>أسعار قديمة</strong><p>{summary.stalePrices}</p></div>
+        <div className="feature-card"><strong>أسعار غير موثقة بالكامل</strong><p>{summary.unverifiedPrices}</p></div>
       </div>
     </div>
   );
