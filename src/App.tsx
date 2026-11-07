@@ -489,7 +489,11 @@ function AdminPage() {
 
   return (
     <div className="container page-block">
-      <h1>لوحة الإدارة</h1>
+      <h1>معاينة جودة بيانات الكتالوج</h1>
+      <div className="result-box" role="note">
+        <strong>تنبيه أمان:</strong>
+        <p>هذه المعاينة تقرأ بيانات محلية أولية فقط. لا توجد هنا مصادقة أو صلاحيات إدارة أو اتصال بقاعدة بيانات إنتاجية؛ لذلك لا تُدخل بيانات حساسة ولا تعتبر هذه الصفحة لوحة إدارة محمية.</p>
+      </div>
       <div className="cards-grid">
         <div className="feature-card"><strong>صور غير متوفرة</strong><p>{summary.missingImages}</p></div>
         <div className="feature-card"><strong>مصادر غير متوفرة</strong><p>{summary.missingSources}</p></div>
