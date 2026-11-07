@@ -41,9 +41,13 @@ function Layout({ children }: { children: ReactNode }) {
             <NavLink to="/compare">Compare</NavLink>
             <NavLink to="/brands">Brands</NavLink>
             <NavLink to="/catalog-center">Catalog Center</NavLink>
-            <NavLink to="/ac">AC</NavLink>
-            <NavLink to="/offers">Offers</NavLink>
-            <NavLink to="/admin">Admin</NavLink>
+            <NavLink to="/ac">التكييف</NavLink>
+            <NavLink to="/offers">العروض</NavLink>
+            <NavLink to="/academy">أكاديمية الحازم</NavLink>
+            <NavLink to="/transparency">مركز الشفافية</NavLink>
+            <NavLink to="/support">خدمة العملاء</NavLink>
+            <NavLink to="/suppliers">الموردون</NavLink>
+            <NavLink to="/admin">الإدارة</NavLink>
           </nav>
         </div>
       </header>
