@@ -36,12 +36,13 @@ function Layout({ children }: { children: ReactNode }) {
 
           <nav className={`nav ${menuOpen ? 'open' : ''}`}>
             <NavLink to="/">الرئيسية</NavLink>
-            <NavLink to="/need-assessment">Need Assessment</NavLink>
-            <NavLink to="/smart-search">Smart Search</NavLink>
-            <NavLink to="/compare">Compare</NavLink>
-            <NavLink to="/brands">Brands</NavLink>
-            <NavLink to="/catalog-center">Catalog Center</NavLink>
+            <NavLink to="/need-assessment">تقييم الاحتياج</NavLink>
+            <NavLink to="/smart-search">البحث الذكي</NavLink>
+            <NavLink to="/compare">المقارنة</NavLink>
+            <NavLink to="/brands">مركز الماركات</NavLink>
+            <NavLink to="/catalog-center">كتالوج المنتجات</NavLink>
             <NavLink to="/ac">التكييف</NavLink>
+            <NavLink to="/smart-advisor">المستشار الذكي</NavLink>
             <NavLink to="/offers">العروض</NavLink>
             <NavLink to="/academy">أكاديمية الحازم</NavLink>
             <NavLink to="/transparency">مركز الشفافية</NavLink>
@@ -68,10 +69,10 @@ function Layout({ children }: { children: ReactNode }) {
           </div>
           <div>
             <h4>روابط سريعة</h4>
-            <Link to="/academy">Academy</Link>
-            <Link to="/transparency">Transparency</Link>
-            <Link to="/support">Support</Link>
-            <Link to="/suppliers">Suppliers</Link>
+            <Link to="/academy">أكاديمية الحازم</Link>
+            <Link to="/transparency">مركز الشفافية</Link>
+            <Link to="/support">خدمة العملاء</Link>
+            <Link to="/suppliers">الموردون</Link>
           </div>
         </div>
       </footer>
@@ -122,22 +123,22 @@ function HomePage() {
 
         <div className="hero-panel">
           <div className="mini-stat">
-            <strong>12+</strong>
+            <strong>{brands.length}</strong>
             <span>ماركات مدرجة</span>
           </div>
           <div className="mini-stat">
-            <strong>3</strong>
-            <span>منتجات موثقة</span>
+            <strong>{products.filter((product) => product.published).length}</strong>
+            <span>منتجات منشورة</span>
           </div>
           <div className="mini-stat">
-            <strong>24/7</strong>
-            <span>استشارة</span>
+            <strong>قبل الشراء</strong>
+            <span>استشارة تساعدك على القرار</span>
           </div>
         </div>
       </section>
 
       <section className="section-block">
-        <h2>Smart Search</h2>
+        <h2>البحث الذكي</h2>
         <div className="search-box">
           <input placeholder="ابحث عن مكيف، غسالة، ثلاجة، مطبخ..." />
           <Link to="/smart-search" className="primary-button">بحث</Link>
@@ -145,7 +146,7 @@ function HomePage() {
       </section>
 
       <section className="section-block">
-        <h2>Need Assessment</h2>
+        <h2>تقييم الاحتياج</h2>
         <div className="feature-grid">
           <div className="feature-card"><strong>تقييم سريع</strong><p>يتم تحديد احتياج المنزل أو المكتب.</p></div>
           <div className="feature-card"><strong>مقارنة موثقة</strong><p>المنتجات تُقارن بالأسعار والتكنولوجيا والضمان.</p></div>
@@ -154,7 +155,7 @@ function HomePage() {
       </section>
 
       <section className="section-block">
-        <h2>Brands</h2>
+        <h2>مركز الماركات</h2>
         <div className="brand-grid">
           {brands.map((brand) => (
             <Link key={brand.id} to={`/brand/${brand.slug}`} className="brand-card">
@@ -167,7 +168,7 @@ function HomePage() {
       </section>
 
       <section className="section-block">
-        <h2>Appliances</h2>
+        <h2>الأجهزة المنزلية</h2>
         <div className="cards-grid">
           {products.slice(0, 2).map((product) => (
             <ProductCard key={product.id} product={product} />
@@ -176,7 +177,7 @@ function HomePage() {
       </section>
 
       <section className="section-block">
-        <h2>AC</h2>
+        <h2>التكييف</h2>
         <div className="cards-grid">
           {products.filter((p) => p.categoryId === 'ac').map((product) => (
             <ProductCard key={product.id} product={product} />
@@ -185,7 +186,7 @@ function HomePage() {
       </section>
 
       <section className="section-block">
-        <h2>Offers</h2>
+        <h2>العروض</h2>
         <div className="cards-grid">
           {offers.map((offer) => (
             <div key={offer.id} className="offer-card">
@@ -198,7 +199,7 @@ function HomePage() {
       </section>
 
       <section className="section-block">
-        <h2>News</h2>
+        <h2>الأخبار</h2>
         <div className="cards-grid">
           {news.map((item) => (
             <article key={item.id} className="news-card">
@@ -211,7 +212,7 @@ function HomePage() {
       </section>
 
       <section className="section-block">
-        <h2>Tips</h2>
+        <h2>نصائح الحازم</h2>
         <div className="cards-grid">
           {tips.map((tip) => (
             <article key={tip.id} className="news-card">
@@ -223,7 +224,7 @@ function HomePage() {
       </section>
 
       <section className="section-block">
-        <h2>Competitions</h2>
+        <h2>المسابقات</h2>
         <div className="cards-grid">
           {competitions.map((entry) => (
             <div key={entry.id} className="feature-card">
@@ -236,7 +237,7 @@ function HomePage() {
       </section>
 
       <section className="section-block">
-        <h2>Academy</h2>
+        <h2>أكاديمية الحازم</h2>
         <div className="cards-grid">
           {academyItems.map((item) => (
             <div key={item.id} className="feature-card">
