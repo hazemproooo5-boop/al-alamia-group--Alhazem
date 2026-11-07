@@ -494,7 +494,10 @@ function AdminPage() {
         <div className="feature-card"><strong>صور غير متوفرة</strong><p>{summary.missingImages}</p></div>
         <div className="feature-card"><strong>مصادر غير متوفرة</strong><p>{summary.missingSources}</p></div>
         <div className="feature-card"><strong>مواصفات غير مكتملة</strong><p>{summary.missingSpecs}</p></div>
+        <div className="feature-card"><strong>ضمان غير متوفر</strong><p>{summary.missingWarranty}</p></div>
+        <div className="feature-card"><strong>أسعار غير مسجلة</strong><p>{summary.missingPrices}</p></div>
         <div className="feature-card"><strong>أسعار قديمة</strong><p>{summary.stalePrices}</p></div>
+        <div className="feature-card"><strong>أسعار غير موثقة بالكامل</strong><p>{summary.unverifiedPrices}</p></div>
       </div>
     </div>
   );
